@@ -19,16 +19,24 @@ namespace WebApplication1.Repositories
         {
             _context = context;
         }
-        public async Task<bool> Create(User user)
+        public async Task<User> Create(UserDto userDto)
         {
             try
             {
-                user.Password = BC.HashPassword(user.Password);
+                User user = new User {
+                    Email = userDto.Email,
+                    Cpf = userDto.Cpf,
+                    Rg = userDto.Rg,
+                    CreatedAt = DateTime.Now,
+                    Nome = userDto.Nome,                    
+                };
+                user.Password = BC.HashPassword(userDto.Password);
+
                 _context.User.Add(user);
                 var response = await _context.SaveChangesAsync();
-                if (response != 1)
-                    return false;
-                return true;
+                if (response == 1)
+                    return user;
+                return null;
             }
             catch (Exception ex)
             {

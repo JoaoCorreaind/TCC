@@ -12,7 +12,7 @@ namespace WebApplication1.Models
         public int Id { get; set; }
         [Required]
         [StringLength(maximumLength:100)]
-        public string Login { get; set; }
+        public string Email { get; set; }
         public string Password { get; set; }
         public string Nome { get; set; }
         public string Cpf { get; set; }
@@ -31,5 +31,14 @@ namespace WebApplication1.Models
         public string Email { get; set; }
         public string Password { get; set; }
 
+    }
+
+    public class UserDto
+    {
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Nome { get; set; }
+        public string Cpf { get; set; }
+        public string Rg { get; set; }
     }
 }

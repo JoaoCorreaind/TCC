@@ -15,6 +15,7 @@ namespace WebApplication1.Tools.DataBase
         public DbSet<User> User { get; set; }
         public DbSet<Grupo> Grupo { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<ImageModel> Image { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,11 @@ namespace WebApplication1.Tools.DataBase
             modelBuilder.Entity<Grupo>()
                 .HasMany(c => c.Participantes)
                 .WithMany(e => e.Grupos);
+
+            modelBuilder
+                .Entity<ImageModel>()
+                .Property(e => e.Id)
+                .ValueGeneratedOnAdd();
         }
     }
 

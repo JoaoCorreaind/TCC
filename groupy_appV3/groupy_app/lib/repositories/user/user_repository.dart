@@ -1,0 +1,28 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:groupy_app/models/user/user.model.dart';
+
+import '../../application/rest_client/rest_client.dart';
+import 'iuser_repository.dart';
+
+class UserRepository implements IUserRepository {
+  @override
+  Future<void> create(User user) async {
+    try {
+      var response = await RestClient().dio.post('user', data: user);
+      if (response.statusCode == 200 || response.statusCode == 200) {
+        Get.snackbar('Cadastrar Usuário', 'Usuário cadastrado com sucesso',
+            backgroundColor: Colors.green);
+        Get.toNamed('/login');
+      } else {
+        Get.snackbar('Cadastrar Usuário',
+            'Não foi possível cadastrar usuário, tente novamente',
+            backgroundColor: Colors.orange);
+      }
+    } on DioError catch (err) {
+      Get.snackbar('Erro ao Usuário', err.error.toString(),
+          backgroundColor: Colors.red);
+    }
+  }
+}

@@ -10,7 +10,7 @@ namespace WebApplication1.Interfaces
     {
         Task<List<User>> GetAll();
         Task<User> GetById(int id);
-        Task<bool> Create(User user);
+        Task<User> Create(UserDto user);
         Task Delete(int id);
         Task<bool> Update(int id , User user);
         bool UserExist(int id);

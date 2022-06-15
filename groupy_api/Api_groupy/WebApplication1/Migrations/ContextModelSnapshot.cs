@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication1.Tools.DataBase;
 
+#nullable disable
+
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(Context))]
@@ -14,8 +16,8 @@ namespace WebApplication1.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.15");
+                .HasAnnotation("ProductVersion", "6.0.5")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("GrupoTag", b =>
                 {
@@ -62,18 +64,52 @@ namespace WebApplication1.Migrations
                     b.Property<string>("Descricao")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("GrupoMainImage")
+                        .HasMaxLength(200)
+                        .HasColumnType("varchar(200)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<int>("LiderId")
+                        .HasColumnType("int");
+
                     b.Property<int>("MaximoUsuarios")
                         .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("LiderId");
+
                     b.ToTable("Grupo");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.ImageModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("GrupoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Path")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GrupoId");
+
+                    b.ToTable("Image");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Tag", b =>
@@ -108,13 +144,13 @@ namespace WebApplication1.Migrations
                     b.Property<DateTime>("DeletedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Login")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Nome")
                         .HasColumnType("longtext");
@@ -164,6 +200,29 @@ namespace WebApplication1.Migrations
                         .HasForeignKey("ParticipantesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Grupo", b =>
+                {
+                    b.HasOne("WebApplication1.Models.User", "Lider")
+                        .WithMany()
+                        .HasForeignKey("LiderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Lider");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.ImageModel", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Grupo", null)
+                        .WithMany("GrupoImages")
+                        .HasForeignKey("GrupoId");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Grupo", b =>
+                {
+                    b.Navigation("GrupoImages");
                 });
 #pragma warning restore 612, 618
         }

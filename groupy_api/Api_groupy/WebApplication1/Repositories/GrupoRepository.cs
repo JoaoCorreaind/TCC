@@ -1,10 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication1.Interfaces;
 using WebApplication1.Models;
+using WebApplication1.Tools;
 using WebApplication1.Tools.DataBase;
 
 namespace WebApplication1.Repositories
@@ -12,10 +17,12 @@ namespace WebApplication1.Repositories
     public class GrupoRepository : IGrupoRepository
     {
         private readonly Context _context;
+        private readonly IHostingEnvironment _host;
 
-        public GrupoRepository(Context context)
+        public GrupoRepository(Context context, IHostingEnvironment host)
         {
             _context = context;
+            _host = host;
         }
         public async Task<dynamic> Create(CreateGrupoDto dto)
         {
@@ -36,7 +43,20 @@ namespace WebApplication1.Repositories
                 };
                 grupo.LiderId = dto.LiderId;
                 grupo.Participantes = new List<User>();
-                grupo.Participantes.Add(await _context.User.FindAsync(dto.LiderId));
+                //grupo.Participantes.Add(await _context.User.FindAsync(dto.LiderId));
+                if (dto.GroupyMainImage != null)
+                {
+                    grupo.GrupoMainImage = Functions.SaveImageInDisk(dto.GroupyMainImage, _host.WebRootPath).Result.Path;
+                };
+                if (dto.GroupyImages != null)
+                {
+                    grupo.GrupoImages = new List<ImageModel>();
+                    foreach (IFormFile file in dto.GroupyImages)
+                    {
+                        grupo.GrupoImages.Add(await Functions.SaveImageInDisk(file, _host.WebRootPath));
+                    }
+                }
+                
                 _context.Grupo.Add(grupo);
                 var response = await _context.SaveChangesAsync();
 

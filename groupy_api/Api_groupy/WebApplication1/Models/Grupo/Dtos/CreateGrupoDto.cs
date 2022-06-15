@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,5 +14,8 @@ namespace WebApplication1.Models
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public int LiderId { get; set; }
         public List<int> Tags { get; set; }
+        public IFormFile GroupyMainImage { get; set; }
+        public List<IFormFile> GroupyImages { get; set; }
+
     }
 }

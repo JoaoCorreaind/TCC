@@ -45,8 +45,9 @@ namespace WebApplication1.Controllers
 
         // POST: api/grupo
         [HttpPost]
-        public async Task<ActionResult<IEnumerable<Grupo>>> Create([FromBody] CreateGrupoDto request)
+        public async Task<ActionResult<IEnumerable<Grupo>>> Create([FromForm] CreateGrupoDto request)
         {
+
             var response = await _grupoRepository.Create(request);
             if (response == null)
                 return NotFound();

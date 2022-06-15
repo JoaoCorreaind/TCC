@@ -1,11 +1,88 @@
 {
   "Version": 1,
-  "Hash": "ozPU8KMwOlbQHpcE5qZTZ7CirEa+BWCC4ogaz+QJEsE=",
+  "Hash": "Psgy5AptbsUEXUY2V6xehwpJGSNgj6OiLPreKFCGh08=",
   "Source": "WebApplication1",
   "BasePath": "_content/WebApplication1",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "WebApplication1\\wwwroot",
+      "Source": "WebApplication1",
+      "ContentRoot": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\",
+      "BasePath": "_content/WebApplication1",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\Image\\altnivel128453822.jpg",
+      "SourceId": "WebApplication1",
+      "SourceType": "Discovered",
+      "ContentRoot": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\",
+      "BasePath": "_content/WebApplication1",
+      "RelativePath": "Image/altnivel128453822.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\altnivel128453822.jpg"
+    },
+    {
+      "Identity": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\Image\\banido106453822.jpg",
+      "SourceId": "WebApplication1",
+      "SourceType": "Discovered",
+      "ContentRoot": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\",
+      "BasePath": "_content/WebApplication1",
+      "RelativePath": "Image/banido106453822.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\banido106453822.jpg"
+    },
+    {
+      "Identity": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\Image\\vdd062453822.jpg",
+      "SourceId": "WebApplication1",
+      "SourceType": "Discovered",
+      "ContentRoot": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\",
+      "BasePath": "_content/WebApplication1",
+      "RelativePath": "Image/vdd062453822.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\vdd062453822.jpg"
+    },
+    {
+      "Identity": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\Image\\vdd114453822.jpg",
+      "SourceId": "WebApplication1",
+      "SourceType": "Discovered",
+      "ContentRoot": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\",
+      "BasePath": "_content/WebApplication1",
+      "RelativePath": "Image/vdd114453822.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\vdd114453822.jpg"
+    }
+  ]
 }

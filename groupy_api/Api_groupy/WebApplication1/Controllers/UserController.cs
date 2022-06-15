@@ -68,16 +68,16 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<dynamic>> PostUser(User user)
+        public async Task<ActionResult<dynamic>> PostUser(UserDto userDto)
         {
-            if (await _context.User.Where(u => u.Login == user.Login).FirstOrDefaultAsync() != null)
+            if (await _context.User.Where(u => u.Email == userDto.Email).FirstOrDefaultAsync() != null)
             {
                 Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return BadRequest(new { message = "Login de usuário já cadastrado na base" });
             }
 
-            var response = await _userRepository.Create(user);
-            if (response == false)
+            var user = await _userRepository.Create(userDto);
+            if (user == null)
                 return BadRequest(new { message = "Ocorreu um erro ao salvar usuário" });
 
             //return CreatedAtAction("GetById", )
@@ -92,7 +92,7 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult<dynamic>> Login([FromBody] DadosLogin model)
         {
 
-            var user = _context.User.Where(user => user.Login == model.Email).FirstOrDefault();
+            var user = _context.User.Where(user => user.Email == model.Email).FirstOrDefault();
 
             if (user == null || !BC.Verify(model.Password, user.Password))
             {
