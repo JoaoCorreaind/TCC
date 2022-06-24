@@ -34,7 +34,6 @@ class HomePage extends GetView<HomeController> {
                   elevation: 3,
                   child: ListTile(
                     onTap: () {
-                      print(_homeController.grupos.value[grupo].title);
                       Get.to(() => GrupoDetalhesPage(
                           grupo: _homeController.grupos.value[grupo]));
                     },
@@ -117,8 +116,10 @@ class HomePage extends GetView<HomeController> {
             Padding(
               padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
               child: IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.groups_sharp),
+                onPressed: () async {
+                  Get.toNamed('/user');
+                },
+                icon: const Icon(Icons.more_horiz),
                 iconSize: 50,
               ),
             ),

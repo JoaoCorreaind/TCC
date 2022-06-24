@@ -25,4 +25,39 @@ class UserRepository implements IUserRepository {
           backgroundColor: Colors.red);
     }
   }
+
+  @override
+  Future<User?> getOne(int id) async {
+    try {
+      var response = await RestClient().dio.get('user/$id');
+      if (response.statusCode == 200) {
+        var user = response.data;
+        return User.fromJson(user);
+      } else {
+        return null;
+      }
+    } on DioError catch (err) {
+      Get.snackbar('Erro', err.message);
+    }
+  }
+
+  @override
+  Future<void> update(User user) async {
+    try {
+      var response =
+          await RestClient().dio.put('user/' + user.id.toString(), data: user);
+      if (response.statusCode == 200 || response.statusCode == 200) {
+        Get.snackbar('Editar Usuário', 'Usuário editado com sucesso',
+            backgroundColor: Colors.green);
+        Get.toNamed('/login');
+      } else {
+        Get.snackbar('Editar Usuário',
+            'Não foi possível editar usuário, tente novamente',
+            backgroundColor: Colors.orange);
+      }
+    } on DioError catch (err) {
+      Get.snackbar('Erro ao Usuário', err.error.toString(),
+          backgroundColor: Colors.red);
+    }
+  }
 }

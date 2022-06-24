@@ -1,28 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\WebApplication1.csproj": {}
+    "E:\\Projects\\PDS\\TCC\\groupy_api\\Api_groupy\\WebApplication1\\WebApplication1.csproj": {}
   },
   "projects": {
-    "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\WebApplication1.csproj": {
+    "E:\\Projects\\PDS\\TCC\\groupy_api\\Api_groupy\\WebApplication1\\WebApplication1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\WebApplication1.csproj",
+        "projectUniqueName": "E:\\Projects\\PDS\\TCC\\groupy_api\\Api_groupy\\WebApplication1\\WebApplication1.csproj",
         "projectName": "WebApplication1",
-        "projectPath": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\WebApplication1.csproj",
+        "projectPath": "E:\\Projects\\PDS\\TCC\\groupy_api\\Api_groupy\\WebApplication1\\WebApplication1.csproj",
         "packagesPath": "C:\\Users\\inde0\\.nuget\\packages\\",
-        "outputPath": "S:\\pds\\groupy_api\\Api_groupy\\WebApplication1\\obj\\",
+        "outputPath": "E:\\Projects\\PDS\\TCC\\groupy_api\\Api_groupy\\WebApplication1\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\inde0\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 19.2.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 19.2\\Components\\System\\Components\\Packages": {},
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -110,7 +109,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

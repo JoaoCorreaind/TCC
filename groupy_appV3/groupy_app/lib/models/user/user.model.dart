@@ -9,7 +9,7 @@ class User {
   String? createdAt;
   String? updatedAt;
   String? deletedAt;
-
+  String? image;
   User(
       {this.id,
       this.email,
@@ -20,7 +20,8 @@ class User {
       this.isDeleted,
       this.createdAt,
       this.updatedAt,
-      this.deletedAt});
+      this.deletedAt,
+      this.image});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -33,6 +34,7 @@ class User {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     deletedAt = json['deletedAt'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -47,6 +49,8 @@ class User {
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     data['deletedAt'] = this.deletedAt;
+    data['image'] = this.image;
+
     return data;
   }
 }

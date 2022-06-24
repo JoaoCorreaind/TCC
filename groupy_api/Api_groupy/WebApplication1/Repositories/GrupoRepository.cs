@@ -91,7 +91,7 @@ namespace WebApplication1.Repositories
         {
             try
             {
-                return await _context.Grupo.Include(g=> g.Tags).Include(g=>g.Participantes).ToListAsync();
+                return await _context.Grupo.Include(g=> g.Tags).Include(g=>g.Participantes).Include(g=>g.Lider).Include(g=> g.GrupoImages).ToListAsync();
             }
             catch (Exception ex)
             {
@@ -184,6 +184,56 @@ namespace WebApplication1.Repositories
             await _context.SaveChangesAsync();
 
             return grupo;
+        }
+        public async Task<List<Grupo>> GetByUser(int id)
+        {
+            try
+            {
+                //return await _context.Grupo.FindAsync(id);
+                var response = await _context.Grupo
+                    .Where(a => a.Participantes.Any(x => x.Id == id))
+                    .Include(c => c.Lider)
+                    .Include(c => c.Participantes)
+                    .Include(c => c.Tags)
+                    .ToListAsync();
+                return response;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+        public async Task<List<Grupo>> GetByLeader(int id)
+        {
+            try
+            {
+                //return await _context.Grupo.FindAsync(id);
+                var response = await _context.Grupo
+                    .Where(g => g.LiderId == id)
+                    .Include(c => c.Lider)
+                    .Include(c => c.Participantes)
+                    .Include(c => c.Tags)
+                    .ToListAsync();
+                return response;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<List<User>> GetMembers(int idGrupo)
+        {
+            try
+            {
+                var grupo = await _context.Grupo.Where(g => g.Id == idGrupo).Include(g => g.Participantes).FirstOrDefaultAsync();
+                return grupo.Participantes;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

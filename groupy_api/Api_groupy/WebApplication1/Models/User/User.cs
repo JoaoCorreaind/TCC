@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 namespace WebApplication1.Models
 {
@@ -17,6 +18,8 @@ namespace WebApplication1.Models
         public string Nome { get; set; }
         public string Cpf { get; set; }
         public string Rg { get; set; }
+        public string Image { get; set; }
+
         [JsonIgnore]
         public virtual ICollection<Grupo> Grupos { get; set; }
         public string TokenUsuario { get; set; }
@@ -40,5 +43,7 @@ namespace WebApplication1.Models
         public string Nome { get; set; }
         public string Cpf { get; set; }
         public string Rg { get; set; }
+        public IFormFile Image { get; set; } = null;
+
     }
 }

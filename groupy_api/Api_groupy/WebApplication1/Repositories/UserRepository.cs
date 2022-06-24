@@ -9,12 +9,15 @@ using WebApplication1.Services;
 using WebApplication1.Tools;
 using WebApplication1.Tools.DataBase;
 using BC = BCrypt.Net.BCrypt;
+using Microsoft.AspNetCore.Hosting;
 
 namespace WebApplication1.Repositories
 {
     public class UserRepository : IUserRepository
     {
         private readonly Context _context;
+        private readonly IHostingEnvironment _host;
+
         public UserRepository(Context context)
         {
             _context = context;
@@ -31,7 +34,10 @@ namespace WebApplication1.Repositories
                     Nome = userDto.Nome,                    
                 };
                 user.Password = BC.HashPassword(userDto.Password);
-
+                if (userDto.Image != null)
+                {
+                    user.Image = Functions.SaveImageInDisk(userDto.Image, _host.WebRootPath).Result.Path;
+                };
                 _context.User.Add(user);
                 var response = await _context.SaveChangesAsync();
                 if (response == 1)

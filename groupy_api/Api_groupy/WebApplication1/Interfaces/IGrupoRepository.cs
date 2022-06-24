@@ -16,6 +16,9 @@ namespace WebApplication1.Interfaces
         bool GrupoExist(int id); 
         Task<Grupo> AddParticipante(AddUserDto dto);
         Task<Grupo> RemoveParticipante(AddUserDto dto);
+        Task<List<Grupo>> GetByUser(int id);
+        Task<List<Grupo>> GetByLeader(int id);
+        Task<List<User>> GetMembers(int idGrupo);
 
     }
 }

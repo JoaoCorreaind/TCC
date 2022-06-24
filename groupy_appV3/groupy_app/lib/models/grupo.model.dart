@@ -1,6 +1,8 @@
 import 'package:groupy_app/models/tags.model.dart';
 import 'package:groupy_app/models/user/user.model.dart';
 
+import 'images.model.dart';
+
 class Grupo {
   int? id;
   String? descricao;
@@ -15,6 +17,7 @@ class Grupo {
   String? grupoMainImage;
   User? lider;
   int? liderId;
+  List<Image>? grupoImages;
 
   Grupo(
       {this.id,
@@ -29,7 +32,8 @@ class Grupo {
       this.grupoMainImage,
       this.title,
       this.lider,
-      this.liderId});
+      this.liderId,
+      this.grupoImages});
 
   Grupo.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -48,12 +52,18 @@ class Grupo {
         tags!.add(Tag.fromJson(v));
       });
     }
+    if (json['grupoImages'] != null) {
+      grupoImages = <Image>[];
+      json['grupoImages'].forEach((v) {
+        grupoImages!.add(Image.fromJson(v));
+      });
+    }
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     deletedAt = json['deletedAt'];
     grupoMainImage = json['grupoMainImage'];
     title = json['title'];
-    lider = json['lider'] != null ? new User.fromJson(json['lider']) : null;
+    lider = json['lider'] != null ? User.fromJson(json['lider']) : null;
     liderId = json['liderId'];
   }
 
@@ -68,6 +78,9 @@ class Grupo {
     }
     if (tags != null) {
       data['tags'] = tags!.map((v) => v.toJson()).toList();
+    }
+    if (grupoImages != null) {
+      data['grupoImages'] = grupoImages!.map((v) => v.toJson()).toList();
     }
     data['createdAt'] = createdAt;
     data['updatedAt'] = updatedAt;

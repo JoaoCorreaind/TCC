@@ -13,9 +13,9 @@ namespace WebApplication1.Models
         public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.Now;
         public int LiderId { get; set; }
-        public List<int> Tags { get; set; }
-        public IFormFile GroupyMainImage { get; set; }
-        public List<IFormFile> GroupyImages { get; set; }
+        public List<int> Tags { get; set; } = null;
+        public IFormFile GroupyMainImage { get; set; } = null;
+        public List<IFormFile> GroupyImages { get; set; } = null;
 
     }
 }

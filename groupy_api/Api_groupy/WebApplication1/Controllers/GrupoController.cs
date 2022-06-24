@@ -86,7 +86,7 @@ namespace WebApplication1.Controllers
             return Ok(new { message = "Atualizado com Sucesso" });
         }
         // GET: api/grupo/5
-        [HttpPost("addParticipante")]
+        [HttpPost("addMember")]
         public async Task<ActionResult<IEnumerable<Grupo>>> AddUser([FromBody] AddUserDto dto)
         {
             var response = await _grupoRepository.AddParticipante(dto);
@@ -95,11 +95,11 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            return Ok(new { message = "Atualizado com Sucesso", grupo = response });
+            return Ok(new { message = "Membro adicionado com sucesso", grupo = response });
         }
 
         // GET: api/grupo/5
-        [HttpPost("removeParticipante")]
+        [HttpPost("removeMember")]
         public async Task<ActionResult<IEnumerable<Grupo>>> RemoveParticipante([FromBody] AddUserDto dto)
         {
             var response = await _grupoRepository.RemoveParticipante(dto);
@@ -108,7 +108,44 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
 
-            return Ok(new { message = "Atualizado com Sucesso", grupo = response });
+            return Ok(new { message = "Membro removido com sucesso", grupo = response });
+        }
+        // GETBYUSER: api/grupo/5/user
+        [HttpGet("{id}/user")]
+        public async Task<ActionResult<List<Grupo>>> GetByUser(int id)
+        {
+            var response = await _grupoRepository.GetByUser(id);
+
+
+            if (response == null)
+                return NotFound();
+
+            return response;
+        }
+        // GETBYUSER: api/grupo/5/leader
+        [HttpGet("{id}/leader")]
+        public async Task<ActionResult<List<Grupo>>> GetByLeader(int id)
+        {
+            var response = await _grupoRepository.GetByLeader(id);
+
+
+            if (response == null)
+                return NotFound();
+
+            return response;
+        }
+
+        // GET MEMBERS: api/grupo/5/leader
+        [HttpGet("{idGrupo}/leader")]
+        public async Task<ActionResult<List<User>>> GetMembers(int idGrupo)
+        {
+            var response = await _grupoRepository.GetMembers(idGrupo);
+
+
+            if (response == null)
+                return NotFound();
+
+            return response;
         }
     }
 }

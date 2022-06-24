@@ -1,5 +1,10 @@
+import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:groupy_app/application/rest_client/rest_client.dart';
 import 'package:groupy_app/models/grupo.model.dart';
+import 'package:groupy_app/models/user/user.model.dart';
 
 import 'igrupo_repository.dart';
 
@@ -23,224 +28,103 @@ class GrupoRepository implements IGrupoRepository {
   }
 
   @override
-  Future<Grupo> getById({required String id}) {
-    // TODO: implement getById
-    throw UnimplementedError();
+  Future<Grupo?> getOne({required String id}) async {
+    try {
+      var response = await RestClient().dio.get('/grupo/' + id);
+      var Grupo = response.data;
+      return Grupo.fromJson(Grupo);
+    } on DioError catch (err) {
+      Get.snackbar(
+          'Erro', 'Ocorreu um erro interno no servidor, tente mais tarde',
+          backgroundColor: Colors.red);
+    }
   }
 
   @override
-  Future<void> update({required String id, required Grupo grupo}) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<void> update({required Grupo grupo}) async {
+    try {
+      var response = await RestClient()
+          .dio
+          .put('user/' + grupo.id.toString(), data: grupo);
+      if (response.statusCode == 200 || response.statusCode == 200) {
+        Get.snackbar('Editar Usuário', 'Usuário editado com sucesso',
+            backgroundColor: Colors.green);
+        Get.toNamed('/login');
+      } else {
+        Get.snackbar('Editar Usuário',
+            'Não foi possível editar usuário, tente novamente',
+            backgroundColor: Colors.orange);
+      }
+    } on DioError catch (err) {
+      Get.snackbar(
+          'Erro', 'Ocorreu um erro interno no servidor, tente mais tarde',
+          backgroundColor: Colors.red);
+    }
+  }
+
+  @override
+  Future<List<Grupo>> getGroupsByUser({required String id}) async {
+    try {
+      var response = await RestClient().dio.get('/grupo/' + id + '/user');
+      var list = response.data as List;
+      List<Grupo> listGrupo = [];
+      for (var json in list) {
+        final grupo = Grupo.fromJson(json);
+        listGrupo.add(grupo);
+      }
+      return listGrupo;
+    } on DioError catch (err) {
+      Get.snackbar(
+          'Erro', 'Ocorreu um erro interno no servidor, tente mais tarde',
+          backgroundColor: Colors.red);
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Grupo>> getGroupsByleader({required String id}) async {
+    var response = await RestClient().dio.get('/grupo/' + id + '/leader');
+    var list = response.data as List;
+    List<Grupo> listGrupo = [];
+    for (var json in list) {
+      final grupo = Grupo.fromJson(json);
+      listGrupo.add(grupo);
+    }
+    return listGrupo;
+  }
+
+  @override
+  Future<bool> addMember(
+      {required String idUsuario, required String idGrupo}) async {
+    var response = await RestClient().dio.post('/grupo/addMember',
+        data: {'GrupoId': idGrupo, 'UserId': idUsuario});
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> removeMember(
+      {required String idUsuario, required String idGrupo}) async {
+    var response = await RestClient().dio.post('/grupo/removeMember',
+        data: {'GrupoId': idGrupo, 'UserId': idUsuario});
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
+  Future<List<User>> getMembers({required String idGrupo}) async {
+    var response = await RestClient().dio.get('/grupo/getMembers/' + idGrupo);
+    var usersResponse = response.data as List;
+    List<User> listUsers = [];
+    for (var user in usersResponse) {
+      listUsers.add(User.fromJson(user));
+    }
+    return listUsers;
   }
 }
-
-
-
-// import 'package:groupy_app/models/tags.model.dart';
-// import 'package:groupy_app/models/user/user.model.dart';
-
-// import '../models/grupo.model.dart';
-
-// class GrupoRepository {
-//   static List<Grupo> table = [
-//     Grupo(
-//         id: 1,
-//         isDeleted: false,
-//         maximoUsuarios: 10,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         title: 'Grupo de combate aos transformers',
-//         descricao:
-//             'grupo para combater transformers descricaogrupo para combater transformers descricaogrupo para combater transformers descricaogrupo para combater transformers descricao',
-//         grupoMainImage:
-//             'https://i.pinimg.com/474x/d2/53/cd/d253cde303ec24235223d9f204b8d1df.jpg',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//     Grupo(
-//         id: 1,
-//         isDeleted: false,
-//         maximoUsuarios: 10,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         title: 'Grupo de combate aos transformers',
-//         descricao:
-//             'grupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformersgrupo de combate aos transformers',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//     Grupo(
-//         id: 2,
-//         isDeleted: false,
-//         maximoUsuarios: 5,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         title: 'Grupo de combate aos deceptiocons',
-//         descricao:
-//             'grupo de combate aos deceptiocons deceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptioconsdeceptiocons',
-//         grupoMainImage:
-//             'https://gartic.com.br/imgs/mural/pe/petrovskar/sonic-muito-foda.png',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//     Grupo(
-//         id: 33,
-//         isDeleted: false,
-//         maximoUsuarios: 10,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         title: 'grupo de youtubers kkk',
-//         descricao:
-//             'grupo de youtubers kkkyoutubers kkkyoutubers kkkyoutubers kkkyoutubers kkkyoutubers kkkyoutubers kkkyoutubers kkkyoutubers kkkyoutubers kkkyoutubers kkk kkk ',
-//         grupoMainImage:
-//             'https://images7.memedroid.com/images/UPLOADED324/6225453ff2d8a.jpeg',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//     Grupo(
-//         id: 3,
-//         isDeleted: false,
-//         maximoUsuarios: 10,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         title: 'grupo de combate mata gente',
-//         descricao:
-//             'grupo de combate mata gente gentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegentegente',
-//         grupoMainImage: 'https://i.ytimg.com/vi/wyygPx0Feuk/sddefault.jpg',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//     Grupo(
-//         id: 5,
-//         isDeleted: false,
-//         maximoUsuarios: 10,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         title: 'grupo de joga um fut',
-//         descricao:
-//             'grupo de jogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajogajoga um fut ',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//     Grupo(
-//         id: 6,
-//         isDeleted: false,
-//         maximoUsuarios: 10,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         descricao:
-//             'grupo de ve uns animezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezinanimezin',
-//         title: 'grupo de ve uns animezin',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//     Grupo(
-//         id: 7,
-//         isDeleted: false,
-//         maximoUsuarios: 10,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         descricao:
-//             'party legendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegendslegends',
-//         title: 'party legends',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//     Grupo(
-//         id: 15,
-//         isDeleted: false,
-//         maximoUsuarios: 10,
-//         createdAt: DateTime.now().toString(),
-//         tags: [Tag(id: 1, descricao: 'tag 1'), Tag(id: 2, descricao: 'tag 2')],
-//         descricao:
-//             'cabo a criatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividadecriatividade',
-//         title: 'cabo a criatividade',
-//         participantes: [
-//           User(
-//               id: 3,
-//               nome: 'Juninho pernambucado',
-//               cpf: '04526329002',
-//               rg: '44515151515'),
-//           User(
-//               id: 4,
-//               nome: 'Juninho brasileira',
-//               cpf: '0545564545',
-//               rg: '111111111'),
-//         ]),
-//   ];
-// }
-
-

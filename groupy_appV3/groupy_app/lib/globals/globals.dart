@@ -1,6 +1,6 @@
-import '../modules/cadastro/cadastro_module.dart';
 import '../modules/home/home_module.dart';
 import '../modules/login/login_module.dart';
+import '../modules/user/cadastro/cadastro_module.dart';
 
 final dynamic getPages = [
   ...LoginModule().routers,

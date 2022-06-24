@@ -89,7 +89,7 @@ class LoginPage extends GetView<LoginController> {
     if (result) {
       Get.snackbar('Login', 'Login Efetuado com sucesso',
           backgroundColor: Colors.green);
-      Get.toNamed('/home');
+      Get.offAllNamed('/home');
     } else {
       clearLogin();
       Get.snackbar('Login', 'Dados Incorretos, tente novamente',
