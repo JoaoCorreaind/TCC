@@ -22,6 +22,9 @@ class CadastroPage extends GetView<CadastroController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Cadastrar Usuário'),
+      ),
       body: Center(
         child: SingleChildScrollView(
             child: Column(

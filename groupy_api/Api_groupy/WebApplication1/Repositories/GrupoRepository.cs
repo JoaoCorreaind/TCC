@@ -195,6 +195,7 @@ namespace WebApplication1.Repositories
                     .Include(c => c.Lider)
                     .Include(c => c.Participantes)
                     .Include(c => c.Tags)
+                    .Include(c=> c.GrupoImages)
                     .ToListAsync();
                 return response;
             }

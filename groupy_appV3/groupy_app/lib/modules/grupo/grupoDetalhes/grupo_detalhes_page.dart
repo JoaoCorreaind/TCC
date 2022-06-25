@@ -120,8 +120,11 @@ class GrupoDetalhesPage extends GetView<GrupoDetalhesController> {
                 child: Obx(
               () => CustomButtonWidget(
                 onPressed: _grupoDetalhesController.isParticipant.value
-                    ? null
-                    : addMember(_grupoDetalhesController.grupo.value.id),
+                    ? () => {
+                          Get.snackbar('', 'Você já faz parte desse grupo',
+                              backgroundColor: Colors.orange)
+                        }
+                    : () => addMember(grupo.id),
                 title: _grupoDetalhesController.isParticipant.value
                     ? 'Membro'
                     : 'Entrar',

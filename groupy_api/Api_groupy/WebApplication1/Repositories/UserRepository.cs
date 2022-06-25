@@ -18,9 +18,11 @@ namespace WebApplication1.Repositories
         private readonly Context _context;
         private readonly IHostingEnvironment _host;
 
-        public UserRepository(Context context)
+        public UserRepository(Context context, IHostingEnvironment host)
         {
             _context = context;
+            _host = host;
+
         }
         public async Task<User> Create(UserDto userDto)
         {
@@ -31,13 +33,17 @@ namespace WebApplication1.Repositories
                     Cpf = userDto.Cpf,
                     Rg = userDto.Rg,
                     CreatedAt = DateTime.Now,
-                    Nome = userDto.Nome,                    
+                    Nome = userDto.Nome,
                 };
                 user.Password = BC.HashPassword(userDto.Password);
                 if (userDto.Image != null)
                 {
                     user.Image = Functions.SaveImageInDisk(userDto.Image, _host.WebRootPath).Result.Path;
                 };
+                if(userDto.CidadeId != 0)
+                {
+                    user.Cidade = await _context.Cidade.FindAsync(userDto.CidadeId);
+                }
                 _context.User.Add(user);
                 var response = await _context.SaveChangesAsync();
                 if (response == 1)

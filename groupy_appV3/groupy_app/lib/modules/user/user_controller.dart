@@ -20,7 +20,7 @@ class UserController extends GetxController {
 
   getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? id = prefs.getInt('user');
+    String? id = prefs.getString('user');
     if (id != null) {
       User? user = await userRepository.getOne(id);
       if (user != null) {

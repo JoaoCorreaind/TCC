@@ -17,8 +17,15 @@ class HomePage extends GetView<HomeController> {
         title: const Text('Grupos'),
         actions: [
           IconButton(
+            onPressed: () => Get.toNamed('grupoCadastro'),
+            icon: const Icon(Icons.add),
+            iconSize: 26,
+          ),
+          IconButton(
               onPressed: () {
-                showSearch(context: context, delegate: CustomSarchDelegate());
+                showSearch(
+                    context: context,
+                    delegate: CustomSarchDelegate(_homeController));
               },
               icon: const Icon(Icons.search))
         ],
@@ -31,15 +38,16 @@ class HomePage extends GetView<HomeController> {
               itemCount: _homeController.grupos.value.length,
               itemBuilder: (BuildContext context, int grupo) {
                 return Card(
-                  elevation: 3,
+                  elevation: 1,
                   child: ListTile(
                     onTap: () {
                       Get.to(() => GrupoDetalhesPage(
                           grupo: _homeController.grupos.value[grupo]));
                     },
-                    tileColor: const Color(0xff263238),
+                    tileColor: const Color(0xff0F1828),
                     //textColor: const Color(0xff585554),
                     leading: CircleAvatar(
+                        radius: 25,
                         backgroundImage: _homeController
                                     .grupos.value[grupo].grupoMainImage !=
                                 null
@@ -54,7 +62,7 @@ class HomePage extends GetView<HomeController> {
                       style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                          color: Color(0xffF7F7FC)),
                     ),
                     subtitle: Text(
                       _homeController.grupos.value[grupo].descricao!.length > 15
@@ -66,7 +74,7 @@ class HomePage extends GetView<HomeController> {
                       style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                          color: Color(0xffADB5BD)),
                     ),
                     trailing: Column(
                       children: [
@@ -90,38 +98,31 @@ class HomePage extends GetView<HomeController> {
       bottomNavigationBar: Container(
         color: const Color(0xff0F1828),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 35, 0),
-              child: IconButton(
-                onPressed: () {
-                  Get.toNamed('/grupoCadastro');
-                },
-                icon: const Icon(Icons.group_add),
-                iconSize: 50,
-              ),
+            IconButton(
+              onPressed: () {
+                Get.toNamed('/grupoCadastro');
+              },
+              icon: const Icon(Icons.group_add_outlined, color: Colors.white),
+              iconSize: 50,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(35, 0, 35, 0),
-              child: IconButton(
-                onPressed: () {
-                  showSearch(context: context, delegate: CustomSarchDelegate());
-                },
-                icon: const Icon(Icons.search),
-                iconSize: 50,
-              ),
+            IconButton(
+              onPressed: () {
+                showSearch(
+                    context: context,
+                    delegate: CustomSarchDelegate(_homeController));
+              },
+              icon: const Icon(Icons.search, color: Colors.white),
+              iconSize: 50,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(35, 0, 0, 0),
-              child: IconButton(
-                onPressed: () async {
-                  Get.toNamed('/user');
-                },
-                icon: const Icon(Icons.more_horiz),
-                iconSize: 50,
-              ),
+            IconButton(
+              onPressed: () async {
+                Get.toNamed('/user');
+              },
+              icon: const Icon(Icons.more_horiz, color: Colors.white),
+              iconSize: 50,
             ),
           ],
         ),
@@ -132,7 +133,12 @@ class HomePage extends GetView<HomeController> {
 
 class CustomSarchDelegate extends SearchDelegate {
   //var _homeController = HomeController();
+  var controller;
   List<Grupo> searchTerms = [];
+
+  CustomSarchDelegate(this.controller) {
+    searchTerms = controller.grupos.value;
+  }
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -158,7 +164,7 @@ class CustomSarchDelegate extends SearchDelegate {
   Widget buildResults(BuildContext context) {
     List<Grupo> machQuery = [];
     for (var term in searchTerms) {
-      if (term.title.toString().contains(query.toLowerCase())) {
+      if (term.title.toString().toLowerCase().contains(query.toLowerCase())) {
         machQuery.add(term);
       }
     }
@@ -182,7 +188,11 @@ class CustomSarchDelegate extends SearchDelegate {
     List<Grupo> machQuery = [];
     for (var i = 0; i < searchTerms.length; i++) {
       if (searchTerms[i].title != null &&
-          searchTerms[i].title.toString().contains(query.toLowerCase())) {
+          searchTerms[i]
+              .title
+              .toString()
+              .toLowerCase()
+              .contains(query.toLowerCase())) {
         machQuery.add(searchTerms[i]);
       }
     }
@@ -195,7 +205,14 @@ class CustomSarchDelegate extends SearchDelegate {
         itemCount: machQuery.length,
         itemBuilder: (context, index) {
           var result = machQuery[index];
-          return ListTile(title: Text(result.title.toString()));
+          return ListTile(
+            title: Text(
+              result.title.toString(),
+            ),
+            onTap: () {
+              Get.to(() => GrupoDetalhesPage(grupo: machQuery[index]));
+            },
+          );
         });
   }
 }

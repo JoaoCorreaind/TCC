@@ -17,8 +17,8 @@ class AuthRepository implements IAuthRepository {
           .post('user/login', data: {"email": email, "password": password});
       if (response.statusCode == 200) {
         sharedPreferences.setString('token', response.data['token']);
-        sharedPreferences.setInt('user', response.data['user']['id']);
-        print(sharedPreferences.getInt('user'));
+        sharedPreferences.setString(
+            'user', response.data['user']['id'].toString());
 
         return true;
       }

@@ -32,7 +32,7 @@ class GroupByLeaderController extends GetxController {
 
   getInitialValues() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? id = prefs.getInt('user');
+    String? id = prefs.getString('user');
     if (id != null) {
       grupos.value = await grupoRepository.getGroupsByleader(id: id.toString());
     } else {

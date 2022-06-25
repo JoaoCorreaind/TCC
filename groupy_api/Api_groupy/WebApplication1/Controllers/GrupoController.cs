@@ -135,8 +135,8 @@ namespace WebApplication1.Controllers
             return response;
         }
 
-        // GET MEMBERS: api/grupo/5/leader
-        [HttpGet("{idGrupo}/leader")]
+        // GET MEMBERS: api/getMembers/1
+        [HttpGet("getMembers/{idGrupo}")]
         public async Task<ActionResult<List<User>>> GetMembers(int idGrupo)
         {
             var response = await _grupoRepository.GetMembers(idGrupo);

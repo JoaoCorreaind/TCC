@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "qnk1TOU6YEdsJjNr1iAuGG91xQOZWEobz9vM/vd8AH4=",
+  "Hash": "vXS+H9LMMD84OSex+/aBOUYvQniz8UZAmOV0Y1KbctQ=",
   "Source": "WebApplication1",
   "BasePath": "_content/WebApplication1",
   "Mode": "Default",
@@ -134,6 +134,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Image\\FOTO_NOTICIA_2809065022.jpg"
+    },
+    {
+      "Identity": "E:\\Projects\\PDS\\TCC\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\Image\\Sea_Turtle451150422.jpg",
+      "SourceId": "WebApplication1",
+      "SourceType": "Discovered",
+      "ContentRoot": "E:\\Projects\\PDS\\TCC\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\",
+      "BasePath": "_content/WebApplication1",
+      "RelativePath": "Image/Sea_Turtle451150422.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\Sea_Turtle451150422.jpg"
     },
     {
       "Identity": "E:\\Projects\\PDS\\TCC\\groupy_api\\Api_groupy\\WebApplication1\\wwwroot\\Image\\Sea_Turtle649065022.jpg",

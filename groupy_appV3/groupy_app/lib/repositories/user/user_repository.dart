@@ -27,7 +27,7 @@ class UserRepository implements IUserRepository {
   }
 
   @override
-  Future<User?> getOne(int id) async {
+  Future<User?> getOne(String id) async {
     try {
       var response = await RestClient().dio.get('user/$id');
       if (response.statusCode == 200) {

@@ -83,14 +83,21 @@ class GrupoRepository implements IGrupoRepository {
 
   @override
   Future<List<Grupo>> getGroupsByleader({required String id}) async {
-    var response = await RestClient().dio.get('/grupo/' + id + '/leader');
-    var list = response.data as List;
-    List<Grupo> listGrupo = [];
-    for (var json in list) {
-      final grupo = Grupo.fromJson(json);
-      listGrupo.add(grupo);
+    try {
+      var response = await RestClient().dio.get('/grupo/' + id + '/leader');
+      var list = response.data as List;
+      List<Grupo> listGrupo = [];
+      for (var json in list) {
+        final grupo = Grupo.fromJson(json);
+        listGrupo.add(grupo);
+      }
+      return listGrupo;
+    } on DioError catch (err) {
+      Get.snackbar(
+          'Erro', 'Ocorreu um erro interno no servidor, tente mais tarde',
+          backgroundColor: Colors.red);
+      return [];
     }
-    return listGrupo;
   }
 
   @override

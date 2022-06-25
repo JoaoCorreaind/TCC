@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:groupy_app/modules/configuracoesUsuario/user_config_controller.dart';
-
-import '../../models/user/user.model.dart';
+import 'package:groupy_app/modules/user/configuracoesUsuario/user_config_controller.dart';
 
 class UserConfigPage extends GetView<UserConfigController> {
   const UserConfigPage({Key? key}) : super(key: key);

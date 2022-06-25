@@ -11,8 +11,8 @@ using WebApplication1.Tools.DataBase;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20220624150222_fotoUsuario")]
-    partial class fotoUsuario
+    [Migration("20220625194439_cidades")]
+    partial class cidades
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -57,6 +57,9 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("CidadeId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -80,12 +83,16 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("varchar(30)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CidadeId");
 
                     b.HasIndex("LiderId");
 
@@ -114,6 +121,42 @@ namespace WebApplication1.Migrations
                     b.ToTable("Image");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Localidade.Cidade", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("EstadoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EstadoId");
+
+                    b.ToTable("Cidade");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Localidade.Estado", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nome")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Uf")
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Estado");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -137,6 +180,9 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<int?>("CidadeId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Cpf")
                         .HasColumnType("longtext");
 
@@ -158,7 +204,9 @@ namespace WebApplication1.Migrations
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("Nome")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Password")
                         .HasColumnType("longtext");
@@ -173,6 +221,8 @@ namespace WebApplication1.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CidadeId");
 
                     b.ToTable("User");
                 });
@@ -209,11 +259,17 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Models.Grupo", b =>
                 {
+                    b.HasOne("WebApplication1.Models.Localidade.Cidade", "Cidade")
+                        .WithMany("Grupos")
+                        .HasForeignKey("CidadeId");
+
                     b.HasOne("WebApplication1.Models.User", "Lider")
                         .WithMany()
                         .HasForeignKey("LiderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Cidade");
 
                     b.Navigation("Lider");
                 });
@@ -225,9 +281,39 @@ namespace WebApplication1.Migrations
                         .HasForeignKey("GrupoId");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Localidade.Cidade", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Localidade.Estado", "Estado")
+                        .WithMany("Cidades")
+                        .HasForeignKey("EstadoId");
+
+                    b.Navigation("Estado");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.User", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Localidade.Cidade", "Cidade")
+                        .WithMany("Users")
+                        .HasForeignKey("CidadeId");
+
+                    b.Navigation("Cidade");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.Grupo", b =>
                 {
                     b.Navigation("GrupoImages");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Localidade.Cidade", b =>
+                {
+                    b.Navigation("Grupos");
+
+                    b.Navigation("Users");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Localidade.Estado", b =>
+                {
+                    b.Navigation("Cidades");
                 });
 #pragma warning restore 612, 618
         }

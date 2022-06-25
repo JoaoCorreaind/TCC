@@ -68,7 +68,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<dynamic>> PostUser(UserDto userDto)
+        public async Task<ActionResult<dynamic>> PostUser([FromForm] UserDto userDto)
         {
             if (await _context.User.Where(u => u.Email == userDto.Email).FirstOrDefaultAsync() != null)
             {

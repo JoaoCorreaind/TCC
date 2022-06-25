@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:groupy_app/models/tags.model.dart';
+import 'package:groupy_app/repositories/tag_repository.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../models/tags.model.dart';
-import '../../repositories/tag_repository.dart';
 
 class CadastroGrupoController extends GetxController {
   //tag para mudar valor selecionado do dropdown

@@ -5,7 +5,7 @@ import 'package:groupy_app/repositories/tag_repository.dart';
 import 'package:validatorless/validatorless.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../application/ui/widgets/custom.text_form_widget.dart';
+import '../../../application/ui/widgets/custom.text_form_widget.dart';
 import 'cadastro_grupo_controller.dart';
 
 class CadastroGrupoPage extends GetView<CadastroGrupoController> {
@@ -22,6 +22,7 @@ class CadastroGrupoPage extends GetView<CadastroGrupoController> {
         child: SingleChildScrollView(
             child: Column(
           children: [
+            Image.asset('assets/chat_image.png'),
             Padding(
               padding: const EdgeInsets.all(10),
               child: CustomTextFormField(
@@ -84,32 +85,6 @@ class CadastroGrupoPage extends GetView<CadastroGrupoController> {
                             }),
                       ),
                     ))),
-            Padding(
-                padding: const EdgeInsets.all(10),
-                child: Container(
-                    child:
-                        Obx(() => grupoCadastroController.grupoMainImage == null
-                            ? Container(
-                                alignment: Alignment.center,
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    ElevatedButton(
-                                      onPressed: () async {
-                                        await _getFromGallery();
-                                      },
-                                      child: const Text("PICK FROM GALLERY"),
-                                    ),
-                                    Container(
-                                      height: 40.0,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : Image.file(
-                                grupoCadastroController.grupoMainImage,
-                                fit: BoxFit.cover,
-                              ))))
           ],
         )),
       ),

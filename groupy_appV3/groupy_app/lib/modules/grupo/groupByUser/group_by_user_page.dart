@@ -19,6 +19,11 @@ class GroupByUserPage extends GetView<GroupByUserController> {
         title: const Text('Grupos onde participo'),
         actions: [
           IconButton(
+            onPressed: () => Get.toNamed('grupoCadastro'),
+            icon: const Icon(Icons.add),
+            iconSize: 26,
+          ),
+          IconButton(
               onPressed: () {
                 showSearch(context: context, delegate: CustomSarchDelegate());
               },
@@ -33,13 +38,13 @@ class GroupByUserPage extends GetView<GroupByUserController> {
               itemCount: _groupByUserController.grupos.value.length,
               itemBuilder: (BuildContext context, int grupo) {
                 return Card(
-                  elevation: 3,
+                  elevation: 1,
                   child: ListTile(
                     onTap: () {
                       Get.to(() => GrupoDetalhesPage(
                           grupo: _groupByUserController.grupos.value[grupo]));
                     },
-                    tileColor: const Color(0xff263238),
+                    tileColor: const Color(0xff0F1828),
                     //textColor: const Color(0xff585554),
                     leading: CircleAvatar(
                         backgroundImage: _groupByUserController

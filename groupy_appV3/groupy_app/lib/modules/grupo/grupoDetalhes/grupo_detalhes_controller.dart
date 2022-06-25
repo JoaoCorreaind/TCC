@@ -15,8 +15,9 @@ class GrupoDetalhesController extends GetxController {
 
   setIsParticipant(List<User> participantes) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    var idUsuario = prefs.getInt('user');
-    if (participantes.any((element) => element.id == idUsuario)) {
+    var idUsuario = prefs.getString('user');
+    if (participantes
+        .any((element) => element.id == int.parse(idUsuario.toString()))) {
       isParticipant(true);
     }
   }

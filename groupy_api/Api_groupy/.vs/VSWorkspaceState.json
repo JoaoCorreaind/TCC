@@ -2,7 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\WebApplication1",
-    "\\WebApplication1\\Migrations"
+    "\\WebApplication1\\Controllers",
+    "\\WebApplication1\\Models",
+    "\\WebApplication1\\Models\\User"
   ],
   "SelectedNode": "\\Api_groupy.sln",
   "PreviewInSolutionExplorer": false
