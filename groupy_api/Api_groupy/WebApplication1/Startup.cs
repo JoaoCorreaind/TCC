@@ -48,6 +48,7 @@ namespace WebApplication1
         {
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IGrupoRepository, GrupoRepository>();
+            services.AddTransient<ICidadeRepository, CidadeRepository>();
 
 
             services.AddDbContext<Context>(option => option.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection"))));

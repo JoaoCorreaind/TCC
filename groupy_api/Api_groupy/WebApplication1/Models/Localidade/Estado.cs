@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
 namespace WebApplication1.Models.Localidade
 {
@@ -7,6 +8,7 @@ namespace WebApplication1.Models.Localidade
         public int Id { get; set; }
         public string Nome { get; set; }
         public string Uf { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Cidade> Cidades { get; set; }
 
     }

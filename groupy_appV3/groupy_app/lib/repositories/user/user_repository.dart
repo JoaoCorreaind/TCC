@@ -1,4 +1,6 @@
-import 'package:dio/dio.dart';
+import 'dart:io';
+
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:groupy_app/models/user/user.model.dart';
@@ -8,9 +10,20 @@ import 'iuser_repository.dart';
 
 class UserRepository implements IUserRepository {
   @override
-  Future<void> create(User user) async {
+  Future<void> create(User user, File? userImage) async {
     try {
-      var response = await RestClient().dio.post('user', data: user);
+      var formData = dio.FormData.fromMap({
+        'nome': user.nome,
+        'age': 25,
+        'cpf': _returnFile(userImage),
+        'rg': user.rg,
+        'email': user.email,
+        'password': user.password,
+        'String': await _returnFile(userImage),
+      });
+      return;
+      var response = await RestClient().dio.post('user', data: formData);
+
       if (response.statusCode == 200 || response.statusCode == 200) {
         Get.snackbar('Cadastrar Usuário', 'Usuário cadastrado com sucesso',
             backgroundColor: Colors.green);
@@ -20,7 +33,7 @@ class UserRepository implements IUserRepository {
             'Não foi possível cadastrar usuário, tente novamente',
             backgroundColor: Colors.orange);
       }
-    } on DioError catch (err) {
+    } on dio.DioError catch (err) {
       Get.snackbar('Erro ao Usuário', err.error.toString(),
           backgroundColor: Colors.red);
     }
@@ -36,7 +49,7 @@ class UserRepository implements IUserRepository {
       } else {
         return null;
       }
-    } on DioError catch (err) {
+    } on dio.DioError catch (err) {
       Get.snackbar('Erro', err.message);
     }
   }
@@ -55,9 +68,16 @@ class UserRepository implements IUserRepository {
             'Não foi possível editar usuário, tente novamente',
             backgroundColor: Colors.orange);
       }
-    } on DioError catch (err) {
+    } on dio.DioError catch (err) {
       Get.snackbar('Erro ao Usuário', err.error.toString(),
           backgroundColor: Colors.red);
     }
+  }
+
+  dynamic _returnFile(File? file) async {
+    if (file == null || file.path == '') {
+      return null;
+    }
+    return await dio.MultipartFile.fromFile(file.path);
   }
 }

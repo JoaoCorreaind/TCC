@@ -147,5 +147,13 @@ namespace WebApplication1.Controllers
 
             return response;
         }
+        [HttpGet("getToday")]
+        public async Task<ActionResult<DateTime>> GetToday()
+        {
+            string date = "9/7/2022";
+
+
+            return DateTime.Parse(date);
+        }
     }
 }

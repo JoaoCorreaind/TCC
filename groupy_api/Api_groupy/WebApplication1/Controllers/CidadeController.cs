@@ -58,7 +58,7 @@ namespace WebApplication1.Controllers
         }
 
         // GET MEMBERS: api/cidade/1/uf
-        [HttpGet("{id}/uf")]
+        [HttpGet("uf/{uf}")]
         public async Task<ActionResult<List<Cidade>>> GetMembers(string uf)
         {
             var response = await _cidadeRepository.GetByUf(uf);

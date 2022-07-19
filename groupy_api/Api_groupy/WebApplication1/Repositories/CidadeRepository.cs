@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApplication1.Interfaces;
@@ -28,12 +28,17 @@ namespace WebApplication1.Repositories
 
         public async Task<List<Cidade>> GetByUf(string uf)
         {
-            return await _context.Cidade.Where(g => g.Estado.Uf.Equals(uf)).ToListAsync();
+            return await _context.Cidade.Where(g => g.Estado.Uf == uf).Include(c=> c.Estado).ToListAsync();
         }
 
         public async Task<Cidade> GetByUser(int userId)
         {
-            return await _context.Cidade.Where(g => g.Users.Any(x => x.Id == userId)).FirstOrDefaultAsync();
+            var user = await _context.User.Where(x => x.Id == userId).Include(x => x.Cidade).FirstOrDefaultAsync();
+            if(user.Cidade != null)
+            {
+                return user.Cidade;
+            }
+            return null;
         }
     }
 }
