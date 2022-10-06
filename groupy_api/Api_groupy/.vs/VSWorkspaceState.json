@@ -4,6 +4,7 @@
     "\\WebApplication1",
     "\\WebApplication1\\Controllers",
     "\\WebApplication1\\Models",
+    "\\WebApplication1\\Models\\Localidade",
     "\\WebApplication1\\Models\\User"
   ],
   "SelectedNode": "\\Api_groupy.sln",

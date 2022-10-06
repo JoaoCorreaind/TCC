@@ -12,7 +12,7 @@ namespace WebApplication1.Models
         public string Descricao { get; set; }
         public bool IsDeleted { get; set; }
         [JsonIgnore]
-        public List<Grupo> Grupos { get; set; }      
+        public List<Group> Groups { get; set; }      
 
     }
 }

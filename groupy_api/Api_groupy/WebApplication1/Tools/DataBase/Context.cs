@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,34 +9,36 @@ using WebApplication1.Models.Localidade;
 
 namespace WebApplication1.Tools.DataBase
 {
-    public class Context : DbContext
+    public class Context : IdentityDbContext<User>
     {
+
         public Context(DbContextOptions<Context> options)
             : base(options)
         {}
         public DbSet<User> User { get; set; }
-        public DbSet<Grupo> Grupo { get; set; }
+        public DbSet<Group> Group { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ImageModel> Image { get; set; }
-        public DbSet<Cidade> Cidade { get; set; }
-        public DbSet<Estado> Estado { get; set; }
+        public DbSet<City> City { get; set; }
+        public DbSet<State> State { get; set; }
+        public DbSet<ChatMessage> ChatMessage { get; set; }
+        public DbSet<Address> Address { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cidade>()
-                .HasOne(c => c.Estado)
-                .WithMany(c => c.Cidades);
+            modelBuilder.Entity<City>()
+                .HasOne(c => c.State)
+                .WithMany(c => c.Citys);
 
-            modelBuilder.Entity<Grupo>()
-                .HasOne(c => c.Lider);
+            modelBuilder.Entity<Group>()
+                .HasOne(c => c.Leader);
 
-            modelBuilder.Entity<Grupo>()
-                .HasMany(c => c.Participantes)
-                .WithMany(e => e.Grupos);
-
-            modelBuilder.Entity<Grupo>()
-                .HasOne(c => c.Cidade)
-                .WithMany(c=> c.Grupos);
+            modelBuilder.Entity<Group>()
+                .HasMany(c => c.Participants)
+                .WithMany(e => e.Groups);
+          
+            modelBuilder.Entity<Group>()
+                .HasOne(c => c.Address);
 
             modelBuilder
                 .Entity<ImageModel>()
@@ -43,8 +46,15 @@ namespace WebApplication1.Tools.DataBase
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<User>()
-                .HasOne(c => c.Cidade)
-                .WithMany(c => c.Users);
+                .HasOne(c => c.Address);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Groups)
+                .WithMany(g => g.Participants);
+
+
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 

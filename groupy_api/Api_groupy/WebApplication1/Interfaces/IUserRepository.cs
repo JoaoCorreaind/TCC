@@ -9,11 +9,14 @@ namespace WebApplication1.Interfaces
     public interface IUserRepository 
     {
         Task<List<User>> GetAll();
-        Task<User> GetById(int id);
+        Task<User> GetById(string id);
         Task<User> Create(UserDto user);
-        Task Delete(int id);
-        Task<bool> Update(int id , User user);
-        bool UserExist(int id);
+        Task<User> GetByEmail(string email);
+
+        Task Delete(string id);
+        Task<bool> Update(string id , UserDto userDto);
+        Task<List<Group>> GroupsByUser (string userId);
+        bool UserExist(string id);
         
     }
 }

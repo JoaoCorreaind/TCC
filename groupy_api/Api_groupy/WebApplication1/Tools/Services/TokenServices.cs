@@ -18,12 +18,14 @@ namespace WebApplication1.Services
         {
             var token = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("E271BF74D722C245674175A739E7C");
+            var claims = new List<Claim>();
+            claims.Add(new Claim("id", user.Id.ToString()));
+
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new Claim[] {
-                    new Claim(ClaimTypes.Name, user.Email.ToString()),
-                }),
-                Expires = DateTime.UtcNow.AddMinutes(15),
+
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 

@@ -9,24 +9,26 @@ using WebApplication1.Models.Localidade;
 
 namespace WebApplication1.Models
 {
-    public class Grupo
+    public class Group
     {
         public int Id { get; set; }
         [Required(ErrorMessage = "Preencha as informações diversas")]
         [StringLength(30, MinimumLength = 4, ErrorMessage = "O titulo do grupo deve ter de 4 a 30 caracteres")]
+        public List<ChatMessage> Messages { get; set; }
         public string Title { get; set; }
-        public string Descricao { get; set; }
-        public int MaximoUsuarios { get; set; }
+        public string Description { get; set; }
+        public int UserLimit { get; set; }
         public bool IsDeleted { get; set; }
         [Required(ErrorMessage = "Id do lider deve ser informado")]
-        public int LiderId { get; set; }
+        public string LeaderId { get; set; }
         [NotMapped]
-        public User Lider { get; set; }
+        public User Leader { get; set; }
         [MaxLength(200)]
-        public string GrupoMainImage { get; set; }
-        public List<ImageModel> GrupoImages { get; set; }
-        public Cidade Cidade { get; set; }
-        public List<User> Participantes { get; set; }
+        public ImageModel GroupMainImage { get; set; }
+        public List<ImageModel> GroupImages { get; set; }
+        public int AddressId { get; set; }
+        public Address Address { get; set; }
+        public List<User> Participants { get; set; }
         public List<Tag> Tags { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

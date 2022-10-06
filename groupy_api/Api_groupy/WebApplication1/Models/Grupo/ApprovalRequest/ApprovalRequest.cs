@@ -13,7 +13,7 @@ namespace WebApplication1.Models
         [Required]
         public string DestinationGroupyId { get; set; }  //id do grupo para qual o usuario pediu aprovação
         public User UserToApprove { get; set; }  //grupo para o qual o usuario pediu aprovação
-        public Grupo DestinationGroupy { get; set; } //grupo onde para qual a request foi enviada
+        public Group DestinationGroupy { get; set; } //grupo onde para qual a request foi enviada
         
         public string Message { get; set; } //mensagem 
         public bool Approvated { get; set; } //aprovado ou não

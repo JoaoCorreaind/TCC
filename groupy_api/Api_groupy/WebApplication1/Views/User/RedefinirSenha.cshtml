@@ -1,0 +1,56 @@
+@using WebApplication1.ViewModels
+
+@{
+    ViewBag.Subtitulo = "Redefinição de Senha";
+}
+@model RedefinirSenhaViewModel
+
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12 flex-column d-flex text-center justify-content-center align-items-center">
+               
+                <div asp-validation-summary="ModelOnly" class="val-summary text-danger my-3"></div>
+                <h1 class="text-primary">Redefinição de Senha</h1>
+                <hr>
+                <form asp-action="RedefinirSenha" class="row justify-content-center" method="post">
+
+                    <div class="form-group mb-3 col-4 d-flex flex-column">
+                        @Html.LabelFor(m => m.Email, new { Class = "text-start"} )
+                        @Html.TextBoxFor(m => m.Email , new { Class = "form-control" , disabled = "disabled"} )
+                    </div>
+                    <span asp-validation-for="@Model.Email" class="text-danger"></span>
+
+                    <div class="w-100 mt-3"></div>
+                    <div class="form-group mb-3 col-4  d-flex flex-column">
+                        @Html.LabelFor(m => m.NovaSenha, new { Class = "text-start"})
+                        @Html.TextBoxFor(m => m.NovaSenha , new { Class = "form-control"} )
+                    </div>
+                    <span asp-validation-for="@Model.NovaSenha" class="text-danger"></span>
+
+                    @*<div class="w-100 mt-3"></div>
+                    <div class="form-group mb-3 col-4  d-flex flex-column">
+                        @Html.LabelFor(m => m.ConfNovaSenha, new { Class = "text-start"})
+                        @Html.TextBoxFor(m => m.ConfNovaSenha, new { Class = "form-control" })
+                    </div>
+                    <span asp-validation-for="@Model.ConfNovaSenha" class="text-danger"></span>*@
+
+                    <div class="col-4 mt-3 d-flex justify-content-between">
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-outline-secondary">Cancelar</a>
+                        <button class="btn btn-primary" type="submit">Redefinir</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
+
+

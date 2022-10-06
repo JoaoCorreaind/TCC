@@ -31,6 +31,10 @@ using System.Text;
 using WebApplication1.Interfaces;
 using WebApplication1.Repositories;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Cors.Infrastructure;
+using WebApplication1.settings;
+using WebApplication1.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace WebApplication1
 {
@@ -46,11 +50,29 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.ConfigureIdentity();
+            //services.AddIdentity<User, IdentityRole>(options =>
+            //{
+            //    options.User.RequireUniqueEmail = true;
+            //    options.SignIn.RequireConfirmedAccount = true;
+            //    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+/`´^~ ";
+            //}).AddEntityFrameworkStores<Context>().AddDefaultTokenProviders();
+
+            services.Configure<settings.GmailSettings>(Configuration.GetSection(nameof (settings.GmailSettings)));
+            services.AddHttpContextAccessor();
             services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IGrupoRepository, GrupoRepository>();
-
-
-            services.AddDbContext<Context>(option => option.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection"))));
+            services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<IGroupRepository, GroupRepository>();
+            services.AddSingleton<IChatRoomService, InMemoryChatRoomService>();
+            services.AddTransient<IChatRepository, ChatRepository>();
+            services.AddSingleton<IEmailRepository, EmailRepository>();
+            services.AddIdentityCore<User>(q => q.User.RequireUniqueEmail = true);
+            services.AddMvc();
+            services.AddDbContext<Context>(opt =>
+            {
+                opt.EnableSensitiveDataLogging();
+                opt.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
+            });
             var key = Encoding.ASCII.GetBytes("E271BF74D722C245674175A739E7C");
             services.AddAuthentication(x =>
             {
@@ -69,8 +91,15 @@ namespace WebApplication1
                     ValidateAudience = false
                 };
             });
-            services.AddControllers();
-            services.AddSignalR();
+
+
+            services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+
+            services.AddSignalR(e => {
+                e.EnableDetailedErrors = true;
+                e.MaximumReceiveMessageSize = 102400000;
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Back end MOVE APP", Version = "v1" });
@@ -80,6 +109,22 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+        
+
+            app.Use(async (httpContext, next) =>
+            {
+                var accessToken = httpContext.Request.Query["access_token"];
+
+                var path = httpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) &&
+                    (path.StartsWithSegments("/chat")))
+                {
+                    httpContext.Request.Headers["Authorization"] = "Bearer " + accessToken;
+                }
+
+                await next();
+            });
+
             app.UseStaticFiles();
 
             if (env.IsDevelopment())
@@ -96,16 +141,20 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseCors(x => x
-            .AllowAnyOrigin()
+            app.UseCors(x =>
+            x.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
-            .AllowAnyHeader());
+            .AllowAnyHeader()
+            .AllowCredentials());
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<ChatHub>("/chat");
             });
+
         }
     }
+
+    
 }

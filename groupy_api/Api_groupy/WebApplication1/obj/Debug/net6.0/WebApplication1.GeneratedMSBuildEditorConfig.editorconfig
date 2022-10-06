@@ -8,9 +8,13 @@ build_property.PlatformNeutralAssembly =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = WebApplication1
 build_property.RootNamespace = WebApplication1
-build_property.ProjectDir = E:\Projects\PDS\TCC\groupy_api\Api_groupy\WebApplication1\
+build_property.ProjectDir = D:\Programação\TCC\TCC\groupy_api\Api_groupy\WebApplication1\
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = E:\Projects\PDS\TCC\groupy_api\Api_groupy\WebApplication1
+build_property.MSBuildProjectDirectory = D:\Programação\TCC\TCC\groupy_api\Api_groupy\WebApplication1
 build_property._RazorSourceGeneratorDebug = 
+
+[D:/Programação/TCC/TCC/groupy_api/Api_groupy/WebApplication1/Views/User/RedefinirSenha.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxSZWRlZmluaXJTZW5oYS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 

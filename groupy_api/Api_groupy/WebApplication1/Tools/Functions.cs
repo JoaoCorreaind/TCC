@@ -2,13 +2,15 @@
 using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using WebApplication1.Models;
 
 namespace WebApplication1.Tools
 {
-    public class Functions
+    public static class Functions
     {
         //Função que salva uma imagem no servidor e retorna o path e nome
         public async static Task<ImageModel> SaveImageInDisk(IFormFile file, string webPath)
@@ -36,5 +38,14 @@ namespace WebApplication1.Tools
                 throw e;
             }            
         }
+
+        public static string RemoveAccents(this string str)
+        {
+            return new string(str
+                .Normalize(NormalizationForm.FormD)
+                .Where(ch => char.GetUnicodeCategory(ch) != UnicodeCategory.NonSpacingMark)
+                .ToArray());
+        }
     }
+
 }

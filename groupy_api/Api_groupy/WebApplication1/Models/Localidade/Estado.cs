@@ -1,13 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace WebApplication1.Models.Localidade
+namespace WebApplication1.Models
 {
-    public class Estado
+    public class State
     {
-        public int Id { get; set; }
-        public string Nome { get; set; }
-        public string Uf { get; set; }
-        public virtual ICollection<Cidade> Cidades { get; set; }
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public virtual ICollection<City> Citys { get; set; }
 
     }
 }
