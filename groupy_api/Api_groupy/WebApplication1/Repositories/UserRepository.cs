@@ -131,7 +131,7 @@ namespace WebApplication1.Repositories
                 if (!string.IsNullOrEmpty(userDto.Image))
                 {
                     byte[] imageBytes = Convert.FromBase64String(userDto.Image);
-                    var fileName = $"{userDto.FirstName}-${userDto.LastName}-perfil-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
+                    var fileName = $"{user.Id}-perfil-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
 
                     using (var stream = new MemoryStream(imageBytes))
                     {
@@ -142,6 +142,19 @@ namespace WebApplication1.Repositories
                     }
                 }
 
+                if (!string.IsNullOrEmpty(userDto.BackgroundImage))
+                {
+                    byte[] imageBytes = Convert.FromBase64String(userDto.BackgroundImage);
+                    var fileName = $"{user.Id}-background-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
+
+                    using (var stream = new MemoryStream(imageBytes))
+                    {
+                        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+
+                        user.BackgroundImage = Functions.SaveImageInDisk(file, _host.WebRootPath).Result.Path;
+
+                    }
+                }
                 var result = await _userManager.UpdateAsync(user);
                 //_context.Entry(updatedUser).State = EntityState.Modified;
 

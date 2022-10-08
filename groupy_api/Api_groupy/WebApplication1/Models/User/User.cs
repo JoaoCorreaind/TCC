@@ -21,6 +21,7 @@ namespace WebApplication1.Models
         public string Cpf { get; set; }
         public string Rg { get; set; }
         public string Image { get; set; }
+        public string BackgroundImage { get; set; }
         public int AddressId { get; set; }
         public Address Address { get; set; }
         public string About { get; set; }
@@ -61,6 +62,8 @@ namespace WebApplication1.Models
         public double? Longitude { get; set; }
         public string ReferencePoint { get; set; }
         public string Image { get; set; }
+        public string BackgroundImage { get; set; }
+
 
     }
 }

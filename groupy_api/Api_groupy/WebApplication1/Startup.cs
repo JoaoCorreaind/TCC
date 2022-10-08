@@ -141,12 +141,17 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
+            //app.UseCors(x =>
+            //x.WithOrigins("http://localhost:4200")
+            //.AllowAnyMethod()
+            //.AllowAnyHeader()
+            //.AllowCredentials());
+
             app.UseCors(x =>
-            x.WithOrigins("http://localhost:4200")
+            x.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()
-            .AllowCredentials());
-
+            );
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

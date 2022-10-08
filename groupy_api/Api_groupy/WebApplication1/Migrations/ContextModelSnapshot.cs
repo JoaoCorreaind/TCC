@@ -388,6 +388,9 @@ namespace WebApplication1.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
+                    b.Property<string>("BackgroundImage")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("CityId")
                         .HasColumnType("varchar(255)");
 
