@@ -143,17 +143,17 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.UseCors(x =>
-            //x.WithOrigins("http://localhost:4200")
-            //.AllowAnyMethod()
-            //.AllowAnyHeader()
-            //.AllowCredentials());
-
             app.UseCors(x =>
-            x.AllowAnyOrigin()
+            x.WithOrigins("https://tcc-angular.vercel.app")
             .AllowAnyMethod()
             .AllowAnyHeader()
-            );
+            .AllowCredentials());
+
+            //app.UseCors(x =>
+            //x.AllowAnyOrigin()
+            //.AllowAnyMethod()
+            //.AllowAnyHeader()
+            //);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
