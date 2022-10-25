@@ -144,7 +144,7 @@ namespace WebApplication1
             app.UseAuthorization();
 
             app.UseCors(x =>
-            x.WithOrigins("http://localhost:4200")
+            x.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()
             .AllowCredentials());
