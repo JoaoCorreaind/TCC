@@ -53,11 +53,13 @@ namespace WebApplication1.Repositories
         }
 
 
-        public async Task<List<User>> GetAll()
+        public async Task<List<User>> GetUserList(string id)
         {
             try
             {
-                return await _context.User.ToListAsync();
+                var response = await _context.User.Where(u => u.Id != id).Include(u=> u.Friends).ToListAsync();
+                response.FindAll(x => x.Friends.Find(x => x.Id == id) == null);
+                return response;
             }
             catch (Exception ex)
             {
@@ -250,6 +252,23 @@ namespace WebApplication1.Repositories
             return _context.User.FirstAsync(x => x.Email == email);
         }
 
+        public async Task CreateFriendRelationship(string userAId, string userBId)
+        {
+            try
+            {
+                User userA = await _context.User.Where(x => x.Id == userAId).Include(x=> x.Friends).FirstOrDefaultAsync();
+                User userB = await _context.User.Where(x => x.Id == userBId).Include(x => x.Friends).FirstOrDefaultAsync();
+                userA.Friends.Add(userB);
+                userB.Friends.Add(userA);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
 
+                throw;
+            }
+            
+
+        }
     }
 }

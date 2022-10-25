@@ -15,6 +15,7 @@ using BC = BCrypt.Net.BCrypt;
 using Microsoft.AspNetCore.Authorization;
 using WebApplication1.ViewModels;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace WebApplication1.Controllers
 {
@@ -36,12 +37,12 @@ namespace WebApplication1.Controllers
             _userManager = userManager;
         }
 
-        //// GET: api/User
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<User>>> GetAll()
-        //{
-        //    return await _userRepository.GetAll();
-        //}
+        // GET: api/User
+        [HttpGet("{id}/userList")]
+        public async Task<ActionResult<List<User>>> GetAll(string id)
+        {
+            return await _userRepository.GetUserList(id);
+        }
 
         // GET: api/User/5
         [HttpGet("{id}")]

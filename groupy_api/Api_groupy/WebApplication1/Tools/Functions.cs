@@ -12,6 +12,19 @@ namespace WebApplication1.Tools
 {
     public static class Functions
     {
+        public static DateTime? GetDateFromUrl(string queryString, string key)
+        {
+            string initialDate = HttpUtility.ParseQueryString(queryString).Get(key);
+            if (!string.IsNullOrEmpty(initialDate))
+            {
+                return DateTime.Parse(initialDate);
+            }
+            return null;
+        }
+        public static string GetStringFromUrl(string queryString, string key)
+        {
+            return HttpUtility.ParseQueryString(queryString).Get(key);            
+        }
         //Função que salva uma imagem no servidor e retorna o path e nome
         public async static Task<ImageModel> SaveImageInDisk(IFormFile file, string webPath)
         {

@@ -26,6 +26,7 @@ namespace WebApplication1.Models
         public Address Address { get; set; }
         public string About { get; set; }
         public List<Group> Groups { get; set; }
+        public List<User> Friends { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

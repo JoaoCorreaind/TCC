@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Abp.Linq.Expressions;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting.Internal;
@@ -8,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using WebApplication1.Interfaces;
 using WebApplication1.Models;
 using WebApplication1.Tools;
@@ -42,22 +44,27 @@ namespace WebApplication1.Repositories
                     Title = dto.Title,
                     CreatedAt = dto.CreatedAt,
                     IsDeleted = false,
-                    UserLimit = dto.MaximoUsuarios,
+                    UserLimit = dto.UserLimit,
                     Description = dto.Descrition,
+                    IsPresencial = dto.IsPresencial,
                     Tags = listTag,
                 };
-                grupo.Address = new Address
+                if (grupo.IsPresencial)
                 {
-                    City = await _context.City.FindAsync(dto.CityId),
-                    Complement = dto.Complement,
-                    District = dto.District,
-                    Number = dto.Number,
-                    PublicPlace = dto.PublicPlace,
-                    ReferencePoint = dto.ReferencePoint,
-                    Latitude = dto.Latitude,
-                    Longitude = dto.Longitude,
+                    grupo.Address = new Address
+                    {
+                        City = await _context.City.FindAsync(dto.CityId),
+                        Complement = dto.Complement,
+                        District = dto.District,
+                        Number = dto.Number,
+                        PublicPlace = dto.PublicPlace,
+                        ReferencePoint = dto.ReferencePoint,
+                        Latitude = dto.Latitude,
+                        Longitude = dto.Longitude,
 
-                };
+                    };
+                }
+                
                 grupo.LeaderId = dto.LiderId;
                 grupo.Participants = new List<User>();
                 grupo.Participants.Add(await _context.User.FindAsync(dto.LiderId));
@@ -76,7 +83,7 @@ namespace WebApplication1.Repositories
                     }
                 }
 
-                if (dto.GroupyImages != null)
+                if (dto.GroupyImages != null && dto.GroupyImages.Count > 0)
                 {
 
                     grupo.GroupImages = new List<ImageModel>();
@@ -94,7 +101,10 @@ namespace WebApplication1.Repositories
                         index++;
                     }
                 }
-
+                if (listTag.Count > 0)
+                {
+                    grupo.Tags = listTag;
+                }
                 _context.Group.Add(grupo);
                 var response = await _context.SaveChangesAsync();
 
@@ -125,11 +135,34 @@ namespace WebApplication1.Repositories
             }
         }
 
-        public async Task<List<Group>> GetAll()
+        public async Task<List<Group>> Find(HttpRequest request)
         {
             try
             {
-                return await _context.Group.Include(g=> g.Tags).Include(g=>g.Participants).Include(c=> c.Address).ThenInclude(a=> a.City).Include(g=>g.Leader).Include(g=> g.GroupImages).Include(g=> g.GroupMainImage).ToListAsync();
+                string userId = Functions.GetStringFromUrl(request.QueryString.ToString(), "userId");
+                bool participant = Boolean.Parse(Functions.GetStringFromUrl(request.QueryString.ToString(), "participant"));
+                DateTime? initialDate = Functions.GetDateFromUrl(request.QueryString.ToString(), "initialDate");
+                DateTime? finalDate = Functions.GetDateFromUrl(request.QueryString.ToString(), "finalDate");
+                string keyword = Functions.GetStringFromUrl(request.QueryString.ToString(), "keyword");
+                var user = await _context.User.FindAsync(userId);
+                var whereClause = PredicateBuilder.New<Group>(true);
+
+                if (participant)
+                {
+                    whereClause.And(x => x.Participants.Contains(user));
+                }
+                else
+                {
+                    whereClause.And(x => !x.Participants.Contains(user));
+
+                }
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    whereClause.And(x => x.Title.Contains(keyword));
+                }
+                var response = await  _context.Group.Where(whereClause).Include(x=> x.Participants).Include(x=> x.GroupImages).Include(x=> x.GroupMainImage).ToListAsync();
+
+                return response;
             }
             catch (Exception ex)
             {
@@ -149,6 +182,7 @@ namespace WebApplication1.Repositories
                     .Include(c => c.Tags)
                     .Include(c=> c.GroupImages)
                     .Include(c => c.GroupMainImage)
+                    .Include(c => c.Tags)
                     .Include(c=> c.Address)
                     .ThenInclude(a=> a.City)
                     .FirstOrDefaultAsync();
@@ -170,21 +204,55 @@ namespace WebApplication1.Repositories
             try
             {
                 List<Tag> listTag = new List<Tag>();
-                List<User> listParticipantes = new List<User>();
 
                 Group grupo = await GetById(id);
-                foreach (int idTag in dto.Tags)
+                if (dto.Tags != null && dto.Tags.Count > 0 )
                 {
-                    listTag.Add(await _context.Tags.FindAsync(idTag));
+                    foreach (int idTag in dto.Tags)
+                    {
+                        listTag.Add(await _context.Tags.FindAsync(idTag));
+                    }
                 }
+                
                 grupo.LeaderId = dto.LiderId;
-                //grupo.Lider = _context.User.Find(dto.LiderId);
+                grupo.Leader = _context.User.Find(dto.LiderId);
     
                 grupo.CreatedAt = dto.CreatedAt;
-                grupo.UserLimit = dto.MaximoUsuarios;
+                grupo.UserLimit = dto.UserLimit;
                 grupo.Description = dto.Descrition;
                 grupo.Tags = listTag;
-                grupo.Participants = listParticipantes;
+                if (!string.IsNullOrEmpty(dto.GroupyMainImage))
+                {
+                    byte[] imageBytes = Convert.FromBase64String(dto.GroupyMainImage);
+                    var fileName = $"{dto.Title}-main-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
+
+                    using (var stream = new MemoryStream(imageBytes))
+                    {
+                        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+
+                        grupo.GroupMainImage = await Functions.SaveImageInDisk(file, _host.WebRootPath);
+
+                    }
+                }
+
+                if (dto.GroupyImages != null && dto.GroupyImages.Count > 0)
+                {
+
+                    grupo.GroupImages = new List<ImageModel>();
+                    int index = 0;
+                    foreach (string fileString in dto.GroupyImages)
+                    {
+                        byte[] imageBytes = Convert.FromBase64String(fileString);
+                        var fileName = $"{dto.Title}-image-{index}-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
+
+                        using (var stream = new MemoryStream(imageBytes))
+                        {
+                            var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+                            grupo.GroupImages.Add(await Functions.SaveImageInDisk(file, _host.WebRootPath));
+                        }
+                        index++;
+                    }
+                }
                 //var oldUser = await _context.User.FindAsync(id);
                 _context.Entry(grupo).State = EntityState.Modified;
 
@@ -196,13 +264,13 @@ namespace WebApplication1.Repositories
                 throw ex;
             }
         }
-        public async Task<Group> AddParticipante(AddUserDto dto)
+        public async Task<Group> AddParticipante(string userId, int groupId)
         {
-            var grupo = await _context.Group.Where(g=> g.Id == dto.GrupoId).Include(g=> g.Participants).FirstOrDefaultAsync();
+            var grupo = await _context.Group.Where(g=> g.Id == groupId).Include(g=> g.Participants).FirstOrDefaultAsync();
             if (grupo == null)
                 return null;
 
-            var user = await _context.User.FindAsync(dto.UserId);
+            var user = await _context.User.FindAsync(userId);
             if (user == null)
                 return null;
 

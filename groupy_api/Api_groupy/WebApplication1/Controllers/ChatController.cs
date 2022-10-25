@@ -16,10 +16,19 @@ namespace WebApplication1.Controllers
         }
 
         [HttpGet("{groupId}/messages")]
-        public async Task<ActionResult<ChatMessage>> GetByUser(int groupId)
+        public async Task<ActionResult<
+            ChatMessage>> GetByUser(int groupId)
         {
             var response = await _chatRepository.GetByGroup(groupId);
             
+            return Ok(response);
+        }
+
+        [HttpGet("{userId}/user-messages")]
+        public async Task<ActionResult<ChatMessage>> GetGroupsMessage(string userId)
+        {
+            var response = await _chatRepository.GetByUser(userId);
+
             return Ok(response);
         }
     }

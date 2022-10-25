@@ -19,7 +19,7 @@ namespace WebApplication1.Services
             var token = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes("E271BF74D722C245674175A739E7C");
             var claims = new List<Claim>();
-            claims.Add(new Claim("id", user.Id.ToString()));
+            claims.Add(new Claim("id", user.Id));
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

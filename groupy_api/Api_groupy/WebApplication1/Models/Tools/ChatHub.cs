@@ -8,6 +8,8 @@ using WebApplication1.Tools.DataBase;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using WebApplication1.Interfaces;
+using WebApplication1.Tools;
+using WebApplication1.Models;
 
 namespace WebApplication1.Models.Tools
 {
@@ -33,8 +35,8 @@ namespace WebApplication1.Models.Tools
             try
             {
              
-                var userId = _acessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id", StringComparison.OrdinalIgnoreCase))?.Value;
-  
+                //var userId = _acessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id", StringComparison.OrdinalIgnoreCase))?.Value;
+                var userId = Functions.GetStringFromUrl( _acessor.HttpContext.Request.QueryString.ToString(), "userId");
 
                 var user = await _context.User.Where(u => u.Id == userId).Include(u => u.Groups).FirstOrDefaultAsync();
                 
@@ -64,7 +66,6 @@ namespace WebApplication1.Models.Tools
         {
             try
             {
-                await Clients.Group(groupId.ToString()).SendAsync("send", user, message);
                 ChatMessage messageStore = new ChatMessage
                 {
                     GroupId = groupId,
@@ -74,6 +75,9 @@ namespace WebApplication1.Models.Tools
                     Text = message,
                     SenderImagePath = user.Image,
                 };
+
+                await Clients.Group(groupId.ToString()).SendAsync("send", user, messageStore);
+                
                 _chatRepository.StoreMessage(messageStore);
 
             }
@@ -120,7 +124,7 @@ public class ChatMessage
     public string Text { get; set; }
     public bool IsPictureMessage { get; set; } = false;
     public int GroupId { get; set; }
-
+    public Group Group { get; set; }
     public DateTimeOffset SentAt { get; set; }
 }
 

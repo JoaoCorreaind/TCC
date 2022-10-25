@@ -8,7 +8,7 @@ namespace WebApplication1.Interfaces
 {
     public interface IUserRepository 
     {
-        Task<List<User>> GetAll();
+        Task<List<User>> GetUserList(string Id);
         Task<User> GetById(string id);
         Task<User> Create(UserDto user);
         Task<User> GetByEmail(string email);
@@ -16,6 +16,7 @@ namespace WebApplication1.Interfaces
         Task Delete(string id);
         Task<bool> Update(string id , UserDto userDto);
         Task<List<Group>> GroupsByUser (string userId);
+        Task CreateFriendRelationship(string userA, string userB);
         bool UserExist(string id);
         
     }

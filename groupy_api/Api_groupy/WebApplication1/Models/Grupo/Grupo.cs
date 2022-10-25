@@ -18,6 +18,8 @@ namespace WebApplication1.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public int UserLimit { get; set; }
+        public bool IsPresencial { get; set; }
+
         public bool IsDeleted { get; set; }
         [Required(ErrorMessage = "Id do lider deve ser informado")]
         public string LeaderId { get; set; }
@@ -26,8 +28,8 @@ namespace WebApplication1.Models
         [MaxLength(200)]
         public ImageModel GroupMainImage { get; set; }
         public List<ImageModel> GroupImages { get; set; }
-        public int AddressId { get; set; }
-        public Address Address { get; set; }
+        public int? AddressId { get; set; }
+        public Address? Address { get; set; }
         public List<User> Participants { get; set; }
         public List<Tag> Tags { get; set; }
         public DateTime CreatedAt { get; set; }

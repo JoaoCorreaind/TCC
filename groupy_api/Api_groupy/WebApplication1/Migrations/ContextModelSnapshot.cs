@@ -275,7 +275,7 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("AddressId")
+                    b.Property<int?>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("CityId")
@@ -294,6 +294,9 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("IsPresencial")
                         .HasColumnType("tinyint(1)");
 
                     b.Property<string>("LeaderId")
@@ -342,6 +345,47 @@ namespace WebApplication1.Migrations
                     b.HasIndex("GroupId");
 
                     b.ToTable("Image");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("GroupId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsResolved")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<int>("NotificationType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ReciverUserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<bool>("ResolvedResult")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SenderUserId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("GroupId");
+
+                    b.HasIndex("ReciverUserId");
+
+                    b.HasIndex("SenderUserId");
+
+                    b.ToTable("Notification");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.State", b =>
@@ -467,6 +511,9 @@ namespace WebApplication1.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
@@ -484,16 +531,20 @@ namespace WebApplication1.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("ChatMessage", b =>
                 {
-                    b.HasOne("WebApplication1.Models.Group", null)
+                    b.HasOne("WebApplication1.Models.Group", "Group")
                         .WithMany("Messages")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Group");
                 });
 
             modelBuilder.Entity("GroupTag", b =>
@@ -599,9 +650,7 @@ namespace WebApplication1.Migrations
                 {
                     b.HasOne("WebApplication1.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("WebApplication1.Models.City", null)
                         .WithMany("Groups")
@@ -631,6 +680,27 @@ namespace WebApplication1.Migrations
                         .HasForeignKey("GroupId");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Notification", b =>
+                {
+                    b.HasOne("WebApplication1.Models.Group", "Group")
+                        .WithMany()
+                        .HasForeignKey("GroupId");
+
+                    b.HasOne("WebApplication1.Models.User", "ReciverUser")
+                        .WithMany()
+                        .HasForeignKey("ReciverUserId");
+
+                    b.HasOne("WebApplication1.Models.User", "SenderUser")
+                        .WithMany()
+                        .HasForeignKey("SenderUserId");
+
+                    b.Navigation("Group");
+
+                    b.Navigation("ReciverUser");
+
+                    b.Navigation("SenderUser");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.User", b =>
                 {
                     b.HasOne("WebApplication1.Models.Address", "Address")
@@ -642,6 +712,10 @@ namespace WebApplication1.Migrations
                     b.HasOne("WebApplication1.Models.City", null)
                         .WithMany("Users")
                         .HasForeignKey("CityId");
+
+                    b.HasOne("WebApplication1.Models.User", null)
+                        .WithMany("Friends")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Address");
                 });
@@ -663,6 +737,11 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Models.State", b =>
                 {
                     b.Navigation("Citys");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.User", b =>
+                {
+                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }

@@ -23,6 +23,7 @@ namespace WebApplication1.Tools.DataBase
         public DbSet<State> State { get; set; }
         public DbSet<ChatMessage> ChatMessage { get; set; }
         public DbSet<Address> Address { get; set; }
+        public DbSet<Notification> Notification { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -52,7 +53,18 @@ namespace WebApplication1.Tools.DataBase
                 .HasMany(u => u.Groups)
                 .WithMany(g => g.Participants);
 
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.SenderUser);
 
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.Group);
+
+            modelBuilder.Entity<Notification>()
+                .HasOne(n => n.ReciverUser);
+
+            modelBuilder.Entity<ChatMessage>()
+                .HasOne(n => n.Group)
+                .WithMany(g => g.Messages);
 
             base.OnModelCreating(modelBuilder);
         }

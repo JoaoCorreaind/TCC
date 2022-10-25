@@ -35,6 +35,7 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using WebApplication1.settings;
 using WebApplication1.Models;
 using Microsoft.AspNetCore.Identity;
+using WebApplication1.Tools;
 
 namespace WebApplication1
 {
@@ -60,12 +61,13 @@ namespace WebApplication1
 
             services.Configure<settings.GmailSettings>(Configuration.GetSection(nameof (settings.GmailSettings)));
             services.AddHttpContextAccessor();
+            services.AddTransient<IChatRepository, ChatRepository>();
+
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<ICityRepository, CityRepository>();
             services.AddTransient<IGroupRepository, GroupRepository>();
-            services.AddSingleton<IChatRoomService, InMemoryChatRoomService>();
-            services.AddTransient<IChatRepository, ChatRepository>();
             services.AddSingleton<IEmailRepository, EmailRepository>();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
             services.AddIdentityCore<User>(q => q.User.RequireUniqueEmail = true);
             services.AddMvc();
             services.AddDbContext<Context>(opt =>
@@ -111,19 +113,19 @@ namespace WebApplication1
         {
         
 
-            app.Use(async (httpContext, next) =>
-            {
-                var accessToken = httpContext.Request.Query["access_token"];
+            //app.Use(async (httpContext, next) =>
+            //{
+            //    var accessToken = httpContext.Request.Query["access_token"];
+            //    var accessToken1 = Functions.GetStringFromUrl(httpContext.Request.QueryString.ToString(), "access_token");
+            //    var path = httpContext.Request.Path;
+            //    if (!string.IsNullOrEmpty(accessToken) &&
+            //        (path.StartsWithSegments("/chat")))
+            //    {
+            //        httpContext.Request.Headers["Authorization"] = "Bearer " + accessToken;
+            //    }
 
-                var path = httpContext.Request.Path;
-                if (!string.IsNullOrEmpty(accessToken) &&
-                    (path.StartsWithSegments("/chat")))
-                {
-                    httpContext.Request.Headers["Authorization"] = "Bearer " + accessToken;
-                }
-
-                await next();
-            });
+            //    await next();
+            //});
 
             app.UseStaticFiles();
 
@@ -141,17 +143,17 @@ namespace WebApplication1
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.UseCors(x =>
-            //x.WithOrigins("http://localhost:4200")
-            //.AllowAnyMethod()
-            //.AllowAnyHeader()
-            //.AllowCredentials());
-
             app.UseCors(x =>
-            x.AllowAnyOrigin()
+            x.WithOrigins("http://localhost:4200")
             .AllowAnyMethod()
             .AllowAnyHeader()
-            );
+            .AllowCredentials());
+
+            //app.UseCors(x =>
+            //x.AllowAnyOrigin()
+            //.AllowAnyMethod()
+            //.AllowAnyHeader()
+            //);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

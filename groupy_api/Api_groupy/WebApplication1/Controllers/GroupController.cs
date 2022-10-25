@@ -24,10 +24,11 @@ namespace WebApplication1.Controllers
         }
 
         // GET: api/grupo
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Group>>> GetAll()
+        [HttpGet("find")]
+        public async Task<ActionResult<IEnumerable<Group>>> Find()
         {
-            return await _grupoRepository.GetAll();
+
+            return await _grupoRepository.Find(Request);
         }
 
         // GET: api/grupo/5
@@ -85,18 +86,18 @@ namespace WebApplication1.Controllers
             }
             return Ok(new { message = "Atualizado com Sucesso" });
         }
-        // GET: api/grupo/5
-        [HttpPost("addMember")]
-        public async Task<ActionResult<IEnumerable<Group>>> AddUser([FromBody] AddUserDto dto)
-        {
-            var response = await _grupoRepository.AddParticipante(dto);
-            if (response == null)
-            {
-                return NotFound();
-            }
+        //// GET: api/grupo/5
+        //[HttpPost("addMember")]
+        //public async Task<ActionResult<IEnumerable<Group>>> AddUser([FromBody] AddUserDto dto)
+        //{
+        //    var response = await _grupoRepository.AddParticipante(dto.UserId, dto.GrupoId);
+        //    if (response == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return Ok(new { message = "Membro adicionado com sucesso", grupo = response });
-        }
+        //    return Ok(new { message = "Membro adicionado com sucesso", grupo = response });
+        //}
 
         // GET: api/grupo/5
         [HttpPost("removeMember")]
