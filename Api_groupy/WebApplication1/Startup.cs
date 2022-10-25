@@ -106,10 +106,10 @@ namespace WebApplication1
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Back end MOVE APP", Version = "v1" });
             });
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
-            });
+            //services.AddCors(options =>
+            //{
+            //    options.AddPolicy("CorsPolicy", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader().AllowCredentials());
+            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -146,18 +146,18 @@ namespace WebApplication1
            
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("CorsPolicy");
+            //app.UseCors("CorsPolicy");
             //app.UseCors(x =>
             //x.WithOrigins("http://localhost:4200")
             //.AllowAnyMethod()
             //.AllowAnyHeader()
             //.AllowCredentials());
 
-            //app.UseCors(x =>
-            //x.AllowAnyOrigin()
-            //.AllowAnyMethod()
-            //.AllowAnyHeader()
-            //);
+            app.UseCors(x =>
+            x.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            );
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
