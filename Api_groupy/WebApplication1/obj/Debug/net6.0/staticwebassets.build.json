@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "oDrbfYM4nbIx9y6AwTKR5FBn1Xsgo7ltZ9BlWSkcf9Y=",
+  "Hash": "HDCGCa3WiS0cZqz4tE854fWPEy6rrYSmQSNhKE9QCQQ=",
   "Source": "WebApplication1",
   "BasePath": "_content/WebApplication1",
   "Mode": "Default",
@@ -1494,6 +1494,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Image\\doc2290461422.jpg"
+    },
+    {
+      "Identity": "D:\\Programação\\TCC\\TCC\\Api_groupy\\WebApplication1\\wwwroot\\Image\\e785aa07-8bd2-4e45-b989-db5ced7fb485-background-image-2022-10-26-12-43-52658524322.jpg",
+      "SourceId": "WebApplication1",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\Programação\\TCC\\TCC\\Api_groupy\\WebApplication1\\wwwroot\\",
+      "BasePath": "_content/WebApplication1",
+      "RelativePath": "Image/e785aa07-8bd2-4e45-b989-db5ced7fb485-background-image-2022-10-26-12-43-52658524322.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Image\\e785aa07-8bd2-4e45-b989-db5ced7fb485-background-image-2022-10-26-12-43-52658524322.jpg"
     },
     {
       "Identity": "D:\\Programação\\TCC\\TCC\\Api_groupy\\WebApplication1\\wwwroot\\Image\\eu156442022.png",

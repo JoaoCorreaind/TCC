@@ -1174,3 +1174,5 @@ D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Debug\net6.0\refint\WebA
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Debug\net6.0\WebApplication1.pdb
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Debug\net6.0\WebApplication1.genruntimeconfig.cache
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Debug\net6.0\ref\WebApplication1.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\AWSSDK.Core.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\AWSSDK.S3.dll

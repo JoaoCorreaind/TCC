@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "/y2431NH5suLW2N0XMdt2Wez49NCBRaIkuLvlR37ecLk0xhRXE6x1jv4RvoEFBD/d+AsyTBgLJO425/uaIpPyg==",
+  "dgSpecHash": "2p9fHuto5e02F90CCVgySCmu1C1aLCTGpEJfhHMvOlaFL5WiVbYngdgfqnhGq4r9S9LJqVpysJf3HPVLoxzENA==",
   "success": true,
   "projectFilePath": "D:\\Programação\\TCC\\TCC\\Api_groupy\\WebApplication1\\WebApplication1.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\inde0\\.nuget\\packages\\abp\\7.4.0\\abp.7.4.0.nupkg.sha512",
+    "C:\\Users\\inde0\\.nuget\\packages\\awssdk.core\\3.7.100.2\\awssdk.core.3.7.100.2.nupkg.sha512",
+    "C:\\Users\\inde0\\.nuget\\packages\\awssdk.s3\\3.7.101.2\\awssdk.s3.3.7.101.2.nupkg.sha512",
     "C:\\Users\\inde0\\.nuget\\packages\\bcrypt\\1.0.0\\bcrypt.1.0.0.nupkg.sha512",
     "C:\\Users\\inde0\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\inde0\\.nuget\\packages\\bootstrap\\5.2.1\\bootstrap.5.2.1.nupkg.sha512",

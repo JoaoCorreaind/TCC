@@ -130,32 +130,43 @@ namespace WebApplication1.Repositories
                     Longitude = userDto.Longitude,
                     ZipCode = userDto.ZipCode,
                 };
+                //if (!string.IsNullOrEmpty(userDto.Image))
+                //{
+                //    byte[] imageBytes = Convert.FromBase64String(userDto.Image);
+                //    var fileName = $"{user.Id}-perfil-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
+
+                //    using (var stream = new MemoryStream(imageBytes))
+                //    {
+                //        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+
+                //        user.Image = Functions.SaveImageInDisk(file, _host.WebRootPath).Result.Path;
+
+                //    }
+                //}
+
                 if (!string.IsNullOrEmpty(userDto.Image))
                 {
-                    byte[] imageBytes = Convert.FromBase64String(userDto.Image);
-                    var fileName = $"{user.Id}-perfil-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
 
-                    using (var stream = new MemoryStream(imageBytes))
-                    {
-                        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
-
-                        user.Image = Functions.SaveImageInDisk(file, _host.WebRootPath).Result.Path;
-
-                    }
+                    var response = await Functions.UploadImage(user.Id + "-perfil-image", userDto.Image);
+                    user.Image = response.PathToFile;
                 }
+                //if (!string.IsNullOrEmpty(userDto.BackgroundImage))
+                //{
+                //    byte[] imageBytes = Convert.FromBase64String(userDto.BackgroundImage);
+                //    var fileName = $"{user.Id}-background-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
 
+                //    using (var stream = new MemoryStream(imageBytes))
+                //    {
+                //        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+
+                //        user.BackgroundImage = Functions.SaveImageInDisk(file, _host.WebRootPath).Result.Path;
+
+                //    }
+                //}
                 if (!string.IsNullOrEmpty(userDto.BackgroundImage))
                 {
-                    byte[] imageBytes = Convert.FromBase64String(userDto.BackgroundImage);
-                    var fileName = $"{user.Id}-background-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
-
-                    using (var stream = new MemoryStream(imageBytes))
-                    {
-                        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
-
-                        user.BackgroundImage = Functions.SaveImageInDisk(file, _host.WebRootPath).Result.Path;
-
-                    }
+                    var response = await Functions.UploadImage(user.Id + "-background-image", userDto.BackgroundImage);
+                    user.BackgroundImage = response.PathToFile;
                 }
                 var result = await _userManager.UpdateAsync(user);
                 //_context.Entry(updatedUser).State = EntityState.Modified;

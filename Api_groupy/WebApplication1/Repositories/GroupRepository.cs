@@ -71,16 +71,22 @@ namespace WebApplication1.Repositories
 
                 if (!string.IsNullOrEmpty(dto.GroupyMainImage))
                 {
-                    byte[] imageBytes = Convert.FromBase64String(dto.GroupyMainImage);
-                    var fileName = $"{dto.Title}-main-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
-            
-                    using (var stream = new MemoryStream(imageBytes))
-                    {
-                        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+                    //byte[] imageBytes = Convert.FromBase64String(dto.GroupyMainImage);
+                    //var fileName = $"{dto.Title}-main-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
 
-                        grupo.GroupMainImage = await Functions.SaveImageInDisk(file, _host.WebRootPath);
-                      
-                    }
+                    //using (var stream = new MemoryStream(imageBytes))
+                    //{
+                    //    var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+
+                    //    grupo.GroupMainImage = await Functions.SaveImageInDisk(file, _host.WebRootPath);
+
+                    //}
+                    var result = await Functions.UploadImage(dto.Title + "-GroupyMainImage", dto.GroupyMainImage);
+                    grupo.GroupMainImage = new ImageModel
+                    {
+                        Name = result.FileName,
+                        Path = result.PathToFile,
+                    };
                 }
 
                 if (dto.GroupyImages != null && dto.GroupyImages.Count > 0)
@@ -90,14 +96,21 @@ namespace WebApplication1.Repositories
                     int index = 0;
                     foreach (string fileString in dto.GroupyImages)
                     {
-                        byte[] imageBytes = Convert.FromBase64String(fileString);
-                        var fileName = $"{dto.Title}-image-{index}-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
+                        //byte[] imageBytes = Convert.FromBase64String(fileString);
+                        //var fileName = $"{dto.Title}-image-{index}-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
 
-                        using (var stream = new MemoryStream(imageBytes))
+                        //using (var stream = new MemoryStream(imageBytes))
+                        //{
+                        //    var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+                        //    grupo.GroupImages.Add(await Functions.SaveImageInDisk(file, _host.WebRootPath));
+                        //}
+
+                        var result = await Functions.UploadImage(dto.Title + $"-group-image-{index}", fileString);
+                        grupo.GroupImages.Add(new ImageModel
                         {
-                            var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
-                            grupo.GroupImages.Add(await Functions.SaveImageInDisk(file, _host.WebRootPath));
-                        }
+                            Name = result.FileName,
+                            Path = result.PathToFile,
+                        });
                         index++;
                     }
                 }
@@ -223,16 +236,22 @@ namespace WebApplication1.Repositories
                 grupo.Tags = listTag;
                 if (!string.IsNullOrEmpty(dto.GroupyMainImage))
                 {
-                    byte[] imageBytes = Convert.FromBase64String(dto.GroupyMainImage);
-                    var fileName = $"{dto.Title}-main-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
+                    //byte[] imageBytes = Convert.FromBase64String(dto.GroupyMainImage);
+                    //var fileName = $"{dto.Title}-main-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
 
-                    using (var stream = new MemoryStream(imageBytes))
+                    //using (var stream = new MemoryStream(imageBytes))
+                    //{
+                    //    var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+
+                    //    grupo.GroupMainImage = await Functions.SaveImageInDisk(file, _host.WebRootPath);
+
+                    //}
+                    var result = await Functions.UploadImage(dto.Title + "-GroupyMainImage", dto.GroupyMainImage);
+                    grupo.GroupMainImage = new ImageModel
                     {
-                        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
-
-                        grupo.GroupMainImage = await Functions.SaveImageInDisk(file, _host.WebRootPath);
-
-                    }
+                        Name = result.FileName,
+                        Path = result.PathToFile,
+                    };
                 }
 
                 if (dto.GroupyImages != null && dto.GroupyImages.Count > 0)
@@ -242,14 +261,20 @@ namespace WebApplication1.Repositories
                     int index = 0;
                     foreach (string fileString in dto.GroupyImages)
                     {
-                        byte[] imageBytes = Convert.FromBase64String(fileString);
-                        var fileName = $"{dto.Title}-image-{index}-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
+                        //byte[] imageBytes = Convert.FromBase64String(fileString);
+                        //var fileName = $"{dto.Title}-image-{index}-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
 
-                        using (var stream = new MemoryStream(imageBytes))
+                        //using (var stream = new MemoryStream(imageBytes))
+                        //{
+                        //    var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
+                        //    grupo.GroupImages.Add(await Functions.SaveImageInDisk(file, _host.WebRootPath));
+                        //}
+                        var result = await Functions.UploadImage(dto.Title + $"-group-image-{index}", fileString);
+                        grupo.GroupImages.Add(new ImageModel
                         {
-                            var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
-                            grupo.GroupImages.Add(await Functions.SaveImageInDisk(file, _host.WebRootPath));
-                        }
+                            Name = result.FileName,
+                            Path = result.PathToFile,
+                        });
                         index++;
                     }
                 }

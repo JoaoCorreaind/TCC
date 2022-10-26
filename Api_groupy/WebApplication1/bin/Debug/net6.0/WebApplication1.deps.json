@@ -8,6 +8,7 @@
     ".NETCoreApp,Version=v6.0": {
       "WebApplication1/1.0.0": {
         "dependencies": {
+          "AWSSDK.S3": "3.7.101.2",
           "Abp": "7.4.0",
           "BCrypt": "1.0.0",
           "BCrypt.Net-Next": "4.0.3",
@@ -61,6 +62,25 @@
           "lib/netstandard2.0/Abp.dll": {
             "assemblyVersion": "7.4.0.0",
             "fileVersion": "7.4.0.0"
+          }
+        }
+      },
+      "AWSSDK.Core/3.7.100.2": {
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.Core.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.100.2"
+          }
+        }
+      },
+      "AWSSDK.S3/3.7.101.2": {
+        "dependencies": {
+          "AWSSDK.Core": "3.7.100.2"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/AWSSDK.S3.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.7.101.2"
           }
         }
       },
@@ -3081,6 +3101,20 @@
       "sha512": "sha512-jAdQcsRNCd1eLK2PyrpEELbMQpZIiQQWsRbANxIF2l7J1OfQxlhpPX4YImS0O/mdx7zelfeGEnzX09n2vgjPxA==",
       "path": "abp/7.4.0",
       "hashPath": "abp.7.4.0.nupkg.sha512"
+    },
+    "AWSSDK.Core/3.7.100.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WThwIHYxZqeVgBF4rY7oz986th5VS1EbJ9JLohL9LXqXEdAYQMqJKo5UadT9sS/5JRpwaB2xv0MEyHW7xf/6/g==",
+      "path": "awssdk.core/3.7.100.2",
+      "hashPath": "awssdk.core.3.7.100.2.nupkg.sha512"
+    },
+    "AWSSDK.S3/3.7.101.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Zwdn2RxaQ9vNuHODbtyS+x5l4GEqA3igoFQ3mvptzB/GGNOR7mavqHQKpIJ+iJeYy68FDf4CIGHFfyTUQB29ZQ==",
+      "path": "awssdk.s3/3.7.101.2",
+      "hashPath": "awssdk.s3.3.7.101.2.nupkg.sha512"
     },
     "BCrypt/1.0.0": {
       "type": "package",
