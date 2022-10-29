@@ -25,7 +25,10 @@ namespace WebApplication1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("GroupId")
+                    b.Property<string>("FriendShipId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsPictureMessage")
@@ -46,11 +49,31 @@ namespace WebApplication1.Migrations
                     b.Property<string>("Text")
                         .HasColumnType("longtext");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("FriendShipId");
 
                     b.HasIndex("GroupId");
 
                     b.ToTable("ChatMessage");
+                });
+
+            modelBuilder.Entity("FriendShipUser", b =>
+                {
+                    b.Property<string>("FriendShipsId")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("UsersId")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("FriendShipsId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("FriendShipUser");
                 });
 
             modelBuilder.Entity("GroupTag", b =>
@@ -267,6 +290,16 @@ namespace WebApplication1.Migrations
                     b.HasIndex("StateId");
 
                     b.ToTable("City");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.FriendShip", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FriendShip");
                 });
 
             modelBuilder.Entity("WebApplication1.Models.Group", b =>
@@ -511,9 +544,6 @@ namespace WebApplication1.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("varchar(256)");
@@ -531,20 +561,37 @@ namespace WebApplication1.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
             modelBuilder.Entity("ChatMessage", b =>
                 {
+                    b.HasOne("WebApplication1.Models.FriendShip", "FriendShip")
+                        .WithMany()
+                        .HasForeignKey("FriendShipId");
+
                     b.HasOne("WebApplication1.Models.Group", "Group")
                         .WithMany("Messages")
-                        .HasForeignKey("GroupId")
+                        .HasForeignKey("GroupId");
+
+                    b.Navigation("FriendShip");
+
+                    b.Navigation("Group");
+                });
+
+            modelBuilder.Entity("FriendShipUser", b =>
+                {
+                    b.HasOne("WebApplication1.Models.FriendShip", null)
+                        .WithMany()
+                        .HasForeignKey("FriendShipsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Group");
+                    b.HasOne("WebApplication1.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GroupTag", b =>
@@ -713,10 +760,6 @@ namespace WebApplication1.Migrations
                         .WithMany("Users")
                         .HasForeignKey("CityId");
 
-                    b.HasOne("WebApplication1.Models.User", null)
-                        .WithMany("Friends")
-                        .HasForeignKey("UserId");
-
                     b.Navigation("Address");
                 });
 
@@ -737,11 +780,6 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Models.State", b =>
                 {
                     b.Navigation("Citys");
-                });
-
-            modelBuilder.Entity("WebApplication1.Models.User", b =>
-                {
-                    b.Navigation("Friends");
                 });
 #pragma warning restore 612, 618
         }

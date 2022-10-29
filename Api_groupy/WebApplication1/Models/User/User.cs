@@ -26,11 +26,17 @@ namespace WebApplication1.Models
         public Address Address { get; set; }
         public string About { get; set; }
         public List<Group> Groups { get; set; }
-        public List<User> Friends { get; set; }
+        public List<FriendShip> FriendShips { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime DeletedAt { get; set; }
+    }
+    public class FriendShip
+    {
+        public string Id { get; set; } = new Guid().ToString(); //id da amizade para poder gerar o chat no signalr
+        public List<User> Users { get; set; } //os dois usuários que possuem a amizade
+
     }
     public class DadosLogin
     {

@@ -16,7 +16,7 @@ namespace WebApplication1.Interfaces
         Task Delete(string id);
         Task<bool> Update(string id , UserDto userDto);
         Task<List<Group>> GroupsByUser (string userId);
-        Task CreateFriendRelationship(string userA, string userB);
+        Task<bool> CreateFriendRelationship(string userA, string userB);
         bool UserExist(string id);
         
     }

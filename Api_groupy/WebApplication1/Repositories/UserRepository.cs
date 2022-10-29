@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using Abp.Linq.Expressions;
 
 namespace WebApplication1.Repositories
 {
@@ -25,6 +26,11 @@ namespace WebApplication1.Repositories
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailRepository _emailRepository;
 
+        private bool UserHasFriendShip(User user, string friendId)
+        {
+            bool friend = user.FriendShips.Find(f => f.Users.Find(u => u.Id == friendId) != null) != null;
+            return friend;
+        }
         public UserRepository(Context context, IHostingEnvironment host, IEmailRepository emailRepository, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
@@ -57,8 +63,11 @@ namespace WebApplication1.Repositories
         {
             try
             {
-                var response = await _context.User.Where(u => u.Id != id).Include(u=> u.Friends).ToListAsync();
-                response.FindAll(x => x.Friends.Find(x => x.Id == id) == null);
+                var response = await _context.User.Where(u => u.Id != id).Include(u => u.FriendShips).ToListAsync();
+                //response.FindAll(x => x.FriendShips.Find(x => x.Users.Find(x=> x.Id == id) == null));
+                //var r = response.FindAll(x=> x.FriendShips.Find(x=> x.Users.Find(x=> x.Id == id) == null))
+                var result = response.FindAll(x => !UserHasFriendShip(x, id));
+
                 return response;
             }
             catch (Exception ex)
@@ -263,15 +272,27 @@ namespace WebApplication1.Repositories
             return _context.User.FirstAsync(x => x.Email == email);
         }
 
-        public async Task CreateFriendRelationship(string userAId, string userBId)
+        public async Task<bool> CreateFriendRelationship(string userAId, string userBId)
         {
             try
             {
-                User userA = await _context.User.Where(x => x.Id == userAId).Include(x=> x.Friends).FirstOrDefaultAsync();
-                User userB = await _context.User.Where(x => x.Id == userBId).Include(x => x.Friends).FirstOrDefaultAsync();
-                userA.Friends.Add(userB);
-                userB.Friends.Add(userA);
-                await _context.SaveChangesAsync();
+                //User userA = await _context.User.Where(x => x.Id == userAId).Include(x=> x.Friends).FirstOrDefaultAsync();
+                //User userB = await _context.User.Where(x => x.Id == userBId).Include(x => x.Friends).FirstOrDefaultAsync();
+                //userA.Friends.Add(userB);
+                //userB.Friends.Add(userA);
+                User userA = await _context.User.Where(x => x.Id == userAId).FirstOrDefaultAsync();
+                User userB = await _context.User.Where(x => x.Id == userBId).FirstOrDefaultAsync();
+                FriendShip ship = new FriendShip();
+                ship.Users = new List<User>();                
+                ship.Users.Add(userA);
+                ship.Users.Add(userB);
+
+                await _context.FriendShip.AddAsync(ship);
+                if (await _context.SaveChangesAsync() > 0)
+                {
+                    return true;
+                }
+                return false;
             }
             catch (Exception)
             {

@@ -107,14 +107,16 @@ namespace WebApplication1.Controllers
                 if (notificationDb.ResolvedResult == true)
                 {
                     //var result = await _userRepository.CreateFriendRelationship(notification.SenderUserId, notification.ReciverUserId);
-                    await _userRepository.CreateFriendRelationship(notification.SenderUserId, notification.ReciverUserId);
-                    NotificationDto successNotification = new NotificationDto
+                    if(await _userRepository.CreateFriendRelationship(notification.SenderUserId, notification.ReciverUserId))
                     {
-                        Description = $"Seu convite foi aceito pelo usuário {notificationDb.ReciverUser.FirstName} {notificationDb.ReciverUser.LastName}!!!",
-                        NotificationType = NotificationTypeEnum.Information,
-                        ReciverUserId = notification.SenderUserId,
-                    };
-                    await _notificationRepository.CreateNotification(successNotification);
+                        NotificationDto successNotification = new NotificationDto
+                        {
+                            Description = $"Seu convite foi aceito pelo usuário {notificationDb.ReciverUser.FirstName} {notificationDb.ReciverUser.LastName}!!!",
+                            NotificationType = NotificationTypeEnum.Information,
+                            ReciverUserId = notification.SenderUserId,
+                        };
+                        await _notificationRepository.CreateNotification(successNotification);
+                    }                    
                 }
                 else
                 {

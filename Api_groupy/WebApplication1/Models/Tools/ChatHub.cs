@@ -34,18 +34,26 @@ namespace WebApplication1.Models.Tools
 
             try
             {
-             
-                //var userId = _acessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id", StringComparison.OrdinalIgnoreCase))?.Value;
-                var userId = Functions.GetStringFromUrl( _acessor.HttpContext.Request.QueryString.ToString(), "userId");
 
-                var user = await _context.User.Where(u => u.Id == userId).Include(u => u.Groups).FirstOrDefaultAsync();
-                
-                if (user.Groups != null || user.Groups.Count > 0)
+                //var userId = _acessor.HttpContext.User.Claims.FirstOrDefault(x => x.Type.Equals("id", StringComparison.OrdinalIgnoreCase))?.Value;
+                var userId = Functions.GetStringFromUrl(_acessor.HttpContext.Request.QueryString.ToString(), "userId");
+
+                var user = await _context.User.Where(u => u.Id == userId).Include(u => u.Groups).Include(u => u.FriendShips).FirstOrDefaultAsync();
+
+                if (user.Groups != null && user.Groups.Count > 0)
                 {
-                    // Add to each assigned group.
+                    // Adiciona aos hubs em grupo.
                     foreach (var item in user.Groups)
                     {
                         await Groups.AddToGroupAsync(Context.ConnectionId, item.Id.ToString());
+                    }
+                }
+                if (user.FriendShips != null && user.FriendShips.Count > 0)
+                {
+                    // Adiciona aos hubs em grupo privados.
+                    foreach (var item in user.FriendShips)
+                    {
+                        await Groups.AddToGroupAsync(Context.ConnectionId, item.Id);
                     }
                 }
 
@@ -62,20 +70,27 @@ namespace WebApplication1.Models.Tools
         public async Task BroadcastToGroup(string groupName) => await Clients.Group(groupName)
         .SendAsync("broadcasttogroup", $"{Context.ConnectionId} has joined the group {groupName}.");
 
-        public async void Send(int groupId, User user, string message)
+        public async void Send(string groupId, User user, string message, MessageTypeEnum messageType)
         {
             try
             {
                 ChatMessage messageStore = new ChatMessage
                 {
-                    GroupId = groupId,
                     SenderId = user.Id,
                     SenderName = user.FirstName + " " + user.LastName,
                     SentAt = DateTime.Now,
                     Text = message,
                     SenderImagePath = user.Image,
+                    Type = messageType
                 };
-
+                if(messageType == MessageTypeEnum.GroupChat)
+                {
+                    messageStore.GroupId = int.Parse(groupId);
+                }
+                else
+                {
+                    messageStore.FriendShipId = groupId;
+                }
                 await Clients.Group(groupId.ToString()).SendAsync("send", user, messageStore);
                 
                 _chatRepository.StoreMessage(messageStore);
@@ -123,8 +138,11 @@ public class ChatMessage
     public string SenderImagePath { get; set; }
     public string Text { get; set; }
     public bool IsPictureMessage { get; set; } = false;
-    public int GroupId { get; set; }
-    public Group Group { get; set; }
+    public int? GroupId { get; set; }
+    public string? FriendShipId { get; set; }
+    public Group? Group { get; set; }
+    public FriendShip? FriendShip { get; set; }
+    public MessageTypeEnum Type { get; set; }
     public DateTimeOffset SentAt { get; set; }
 }
 
@@ -167,4 +185,10 @@ public class InMemoryChatRoomService : IChatRoomService
         return Task.FromResult(foundRoom.Key);
     }
 
+    
+}
+public enum MessageTypeEnum
+{
+    GroupChat,
+    PrivateChat,
 }

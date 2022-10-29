@@ -24,6 +24,7 @@ namespace WebApplication1.Tools.DataBase
         public DbSet<ChatMessage> ChatMessage { get; set; }
         public DbSet<Address> Address { get; set; }
         public DbSet<Notification> Notification { get; set; }
+        public DbSet<FriendShip> FriendShip { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -65,6 +66,10 @@ namespace WebApplication1.Tools.DataBase
             modelBuilder.Entity<ChatMessage>()
                 .HasOne(n => n.Group)
                 .WithMany(g => g.Messages);
+
+            modelBuilder.Entity<FriendShip>()
+                .HasMany(n => n.Users)
+                .WithMany(g => g.FriendShips);
 
             base.OnModelCreating(modelBuilder);
         }

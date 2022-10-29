@@ -31,5 +31,12 @@ namespace WebApplication1.Controllers
 
             return Ok(response);
         }
+        [HttpGet("{userId}")]
+        public async Task<ActionResult<ChatMessage>> GetChats(string userId)
+        {
+            var response = await _chatRepository.GetChats(userId);
+
+            return Ok(response);
+        }
     }
 }
