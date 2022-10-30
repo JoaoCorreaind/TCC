@@ -27,6 +27,7 @@ namespace WebApplication1.Models
         public string About { get; set; }
         public List<Group> Groups { get; set; }
         public List<FriendShip> FriendShips { get; set; }
+        public List<Tag> InterestTags { get; set; }
         public bool IsDeleted { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
@@ -58,6 +59,8 @@ namespace WebApplication1.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Cpf { get; set; }
+        public List<int> Tags { get; set; }
+
         public string Rg { get; set; }
         public string CityId { get; set; }
         public string ZipCode { get; set; }

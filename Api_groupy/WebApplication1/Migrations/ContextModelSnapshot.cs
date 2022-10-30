@@ -446,7 +446,12 @@ namespace WebApplication1.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("tinyint(1)");
 
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Tags");
                 });
@@ -748,6 +753,13 @@ namespace WebApplication1.Migrations
                     b.Navigation("SenderUser");
                 });
 
+            modelBuilder.Entity("WebApplication1.Models.Tag", b =>
+                {
+                    b.HasOne("WebApplication1.Models.User", null)
+                        .WithMany("InterestTags")
+                        .HasForeignKey("UserId");
+                });
+
             modelBuilder.Entity("WebApplication1.Models.User", b =>
                 {
                     b.HasOne("WebApplication1.Models.Address", "Address")
@@ -780,6 +792,11 @@ namespace WebApplication1.Migrations
             modelBuilder.Entity("WebApplication1.Models.State", b =>
                 {
                     b.Navigation("Citys");
+                });
+
+            modelBuilder.Entity("WebApplication1.Models.User", b =>
+                {
+                    b.Navigation("InterestTags");
                 });
 #pragma warning restore 612, 618
         }

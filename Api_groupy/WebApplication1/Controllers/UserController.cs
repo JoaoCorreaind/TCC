@@ -68,8 +68,13 @@ namespace WebApplication1.Controllers
 
             try
             {
-                await _userRepository.Update(id, userDto);
-                return Ok(new { message = "Atualizado com Sucesso" });
+                var result = await _userRepository.Update(id, userDto);
+                if(result == null)
+                {
+                    return BadRequest(new { erro = "Falha ao atualizar" });
+                }
+                       
+                return Ok(new { message = "Atualizado com Sucesso" , user = result});
             }
             catch (Exception ex)
             {

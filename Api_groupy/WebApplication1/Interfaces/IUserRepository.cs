@@ -14,7 +14,7 @@ namespace WebApplication1.Interfaces
         Task<User> GetByEmail(string email);
 
         Task Delete(string id);
-        Task<bool> Update(string id , UserDto userDto);
+        Task<User> Update(string id , UserDto userDto);
         Task<List<Group>> GroupsByUser (string userId);
         Task<bool> CreateFriendRelationship(string userA, string userB);
         bool UserExist(string id);

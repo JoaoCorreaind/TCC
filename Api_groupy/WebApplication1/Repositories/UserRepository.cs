@@ -80,7 +80,7 @@ namespace WebApplication1.Repositories
         {
             try
             {
-                return await _context.User.Where(u => u.Id == id).Include(u => u.Groups).Include(u=> u.Address).ThenInclude(u=> u.City).FirstOrDefaultAsync();
+                return await _context.User.Where(u => u.Id == id).Include(u => u.Groups).Include(u=> u.InterestTags).Include(u=> u.Address).ThenInclude(u=> u.City).FirstOrDefaultAsync();
             }
             catch (Exception ex)
             {
@@ -107,7 +107,7 @@ namespace WebApplication1.Repositories
             }
         }
 
-        public async Task<bool> Update(string id, UserDto userDto)
+        public async Task<User> Update(string id, UserDto userDto)
         {
             try
             {
@@ -171,20 +171,28 @@ namespace WebApplication1.Repositories
                 //        user.BackgroundImage = Functions.SaveImageInDisk(file, _host.WebRootPath).Result.Path;
 
                 //    }
-                //}
+                //}               
                 if (!string.IsNullOrEmpty(userDto.BackgroundImage))
                 {
                     var response = await Functions.UploadImage(user.Id + "-background-image", userDto.BackgroundImage);
                     user.BackgroundImage = response.PathToFile;
+                }
+                if(userDto.Tags != null && userDto.Tags.Count > 0)
+                {
+                    user.InterestTags = new List<Tag>();
+                    foreach (var tagId in userDto.Tags)
+                    {
+                        user.InterestTags.Add(await _context.Tags.FindAsync(tagId));
+                    }
                 }
                 var result = await _userManager.UpdateAsync(user);
                 //_context.Entry(updatedUser).State = EntityState.Modified;
 
                 if (result.Succeeded)
                 {
-                    return true;
+                    return user;
                 }
-                return false;
+                return null;
             }
             catch (DbUpdateConcurrencyException ex)
             {
