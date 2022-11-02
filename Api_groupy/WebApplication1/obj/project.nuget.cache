@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2p9fHuto5e02F90CCVgySCmu1C1aLCTGpEJfhHMvOlaFL5WiVbYngdgfqnhGq4r9S9LJqVpysJf3HPVLoxzENA==",
+  "dgSpecHash": "VBre+t06ki2YVsk/mC4WCGTq6vHnPurA6rKOwe06RTYQaG6vZXm8nJnF0UTgPqwRvHzA/Ipws9e3G0vy7mZQWQ==",
   "success": true,
   "projectFilePath": "D:\\Programação\\TCC\\TCC\\Api_groupy\\WebApplication1\\WebApplication1.csproj",
   "expectedPackageFiles": [
@@ -15,6 +15,9 @@
     "C:\\Users\\inde0\\.nuget\\packages\\castle.loggingfacility\\5.1.1\\castle.loggingfacility.5.1.1.nupkg.sha512",
     "C:\\Users\\inde0\\.nuget\\packages\\castle.windsor\\5.1.1\\castle.windsor.5.1.1.nupkg.sha512",
     "C:\\Users\\inde0\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
+    "C:\\Users\\inde0\\.nuget\\packages\\google.apis\\1.57.0\\google.apis.1.57.0.nupkg.sha512",
+    "C:\\Users\\inde0\\.nuget\\packages\\google.apis.auth\\1.57.0\\google.apis.auth.1.57.0.nupkg.sha512",
+    "C:\\Users\\inde0\\.nuget\\packages\\google.apis.core\\1.57.0\\google.apis.core.1.57.0.nupkg.sha512",
     "C:\\Users\\inde0\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\inde0\\.nuget\\packages\\jetbrains.annotations\\2022.1.0\\jetbrains.annotations.2022.1.0.nupkg.sha512",
     "C:\\Users\\inde0\\.nuget\\packages\\mailkit\\3.4.0\\mailkit.3.4.0.nupkg.sha512",

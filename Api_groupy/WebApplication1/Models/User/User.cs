@@ -21,9 +21,10 @@ namespace WebApplication1.Models
         public string Cpf { get; set; }
         public string Rg { get; set; }
         public string Image { get; set; }
+        public bool IsSocialAccount { get; set; } = false;
         public string BackgroundImage { get; set; }
-        public int AddressId { get; set; }
-        public Address Address { get; set; }
+        public int? AddressId { get; set; }
+        public Address? Address { get; set; }
         public string About { get; set; }
         public List<Group> Groups { get; set; }
         public List<FriendShip> FriendShips { get; set; }

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using WebApplication1.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using Google.Apis.Auth;
 
 namespace WebApplication1.Controllers
 {
@@ -109,9 +110,9 @@ namespace WebApplication1.Controllers
         {
 
             var user = await _userManager.FindByEmailAsync(model.Email);
-            
 
-            if (user == null || !BC.Verify(model.Password, user.Password))
+
+            if (user == null || !BC.Verify(model.Password, user.Password) || user.IsSocialAccount)
             {
                 return BadRequest(new { message = "Dados incorretos", status = (int)HttpStatusCode.BadRequest });
             }
@@ -123,6 +124,51 @@ namespace WebApplication1.Controllers
             }
             var token = TokenServices.GenerateToken(user);
             return Ok(new { user = user, token = token });
+        }
+
+        [HttpPost]
+        [Route("google-login")]
+        public async Task<ActionResult<dynamic>> LoginWithGoogle([FromBody] SocialCredentials credential)
+        {
+
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new List<string> { "166460466695-dgr8k3km6cau1l6osghro6e5ig3kn3tc.apps.googleusercontent.com" }
+            };
+
+            var payload = await GoogleJsonWebSignature.ValidateAsync(credential.credentials, settings);
+
+            var user = await _userManager.FindByEmailAsync(payload.Email);
+
+            if (user != null)
+            {
+                return Ok(new { token = TokenServices.GenerateToken(user), user = user });
+            }        
+            else
+            {
+                User newUser = new User()
+                {
+                    Image = payload.Picture,
+                    FirstName = payload.GivenName,
+                    LastName = payload.FamilyName,
+                    Email = payload.Email,
+                    Password = BC.HashPassword(payload.Email),
+                    NormalizedUserName = $"{payload.GivenName} {payload.FamilyName}",
+                    UserName = payload.Email,
+                    EmailConfirmed = payload.EmailVerified,
+                    IsSocialAccount = true,
+                };
+                var result = await _userManager.CreateAsync(newUser, newUser.Password);
+                if (result.Succeeded)
+                {
+                    return Ok(new { token = TokenServices.GenerateToken(newUser), user = newUser});
+                }
+                else
+                {
+                    return BadRequest();
+
+                }
+            }
         }
 
         [HttpDelete("{id}")]
@@ -288,4 +334,9 @@ namespace WebApplication1.Controllers
     {
         public string Email { get; set; }
     }
+}
+
+public class SocialCredentials
+{
+    public string credentials { get; set; }
 }
