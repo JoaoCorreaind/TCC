@@ -154,12 +154,14 @@ namespace WebApplication1.Repositories
             {
                 string userId = Functions.GetStringFromUrl(request.QueryString.ToString(), "userId");
                 bool participant = Boolean.Parse(Functions.GetStringFromUrl(request.QueryString.ToString(), "participant"));
+                bool filterTagsAnd = Functions.GetBoolFromUrl(request.QueryString.ToString(), "filterAnd");
                 DateTime? initialDate = Functions.GetDateFromUrl(request.QueryString.ToString(), "initialDate");
                 DateTime? finalDate = Functions.GetDateFromUrl(request.QueryString.ToString(), "finalDate");
-                string keyword = Functions.GetStringFromUrl(request.QueryString.ToString(), "keyword");
+                List<string> tags = Functions.GetListFromUrl(request.QueryString.ToString(), "tag");
                 var user = await _context.User.FindAsync(userId);
                 var whereClause = PredicateBuilder.New<Group>(true);
 
+                
                 if (participant)
                 {
                     whereClause.And(x => x.Participants.Contains(user));
@@ -169,10 +171,43 @@ namespace WebApplication1.Repositories
                     whereClause.And(x => !x.Participants.Contains(user));
 
                 }
-                if (!string.IsNullOrEmpty(keyword))
+                if (initialDate.HasValue)
                 {
-                    whereClause.And(x => x.Title.Contains(keyword));
+                    whereClause.And(x => x.CreatedAt > initialDate.Value);
                 }
+                if (finalDate.HasValue)
+                {
+                    whereClause.And(x => x.CreatedAt < finalDate.Value);
+                }
+                if (tags != null && tags.Count > 0)
+                {
+                    var i = 0;
+                    foreach (string tag in tags)
+                    {
+                        if (filterTagsAnd)
+                        {
+                            Tag _tag = await _context.Tags.FindAsync(int.Parse(tag));
+                            whereClause.And(x=> x.Tags.Contains(_tag));
+                        }
+                        else
+                        {
+                            if(i == 0)
+                            {
+                                Tag _tag = await _context.Tags.FindAsync(int.Parse(tag));
+                                whereClause.And(x => x.Tags.Contains(_tag));
+
+                            }
+                            else
+                            {
+                                Tag _tag = await _context.Tags.FindAsync(int.Parse(tag));
+                                whereClause.Or(x => x.Tags.Contains(_tag));
+                            }
+                        }
+                        i++;
+
+                    }
+                }
+
                 var response = await  _context.Group.Where(whereClause).Include(x=> x.Participants).Include(x=> x.GroupImages).Include(x=> x.GroupMainImage).ToListAsync();
 
                 return response;

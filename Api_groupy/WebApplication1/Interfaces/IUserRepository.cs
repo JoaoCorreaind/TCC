@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace WebApplication1.Interfaces
 {
     public interface IUserRepository 
     {
+        Task<List<User>> Find(HttpRequest parameters);
         Task<List<User>> GetUserList(string Id);
         Task<User> GetById(string id);
         Task<User> Create(UserDto user);

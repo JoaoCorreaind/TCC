@@ -63,12 +63,13 @@ namespace WebApplication1.Repositories
         {
             try
             {
-                var response = await _context.User.Where(u => u.Id != id).Include(u => u.FriendShips).ToListAsync();
-                //response.FindAll(x => x.FriendShips.Find(x => x.Users.Find(x=> x.Id == id) == null));
+                var response = await _context.User.Where(u => u.Id != id).Include(x => x.InterestTags).Include(u => u.FriendShips).ThenInclude(x=> x.Users).ToListAsync();
+                //response.FindAll(x => x.FriendShips.Find(x => x.Users.Find(x => x.Id == id) == null));
                 //var r = response.FindAll(x=> x.FriendShips.Find(x=> x.Users.Find(x=> x.Id == id) == null))
-                var result = response.FindAll(x => !UserHasFriendShip(x, id));
+                //var result = response.FindAll(x => x.FriendShips.Exists(x => x.Users.Find(x => x.Id == id)==null));
+                var result = response.FindAll(x=> !x.FriendShips.Exists(x=> x.Users.Exists(x=> x.Id == id)));
 
-                return response;
+                return result;
             }
             catch (Exception ex)
             {
@@ -222,7 +223,7 @@ namespace WebApplication1.Repositories
                     LastName = userDto.LastName,
                     About = userDto.About,
                     UserName = userDto.Email,
-                    NormalizedUserName = $"{userDto.FirstName} {userDto.LastName}"
+                    FullName = $"{userDto.FirstName} {userDto.LastName}"
                 };
 
                 if (!string.IsNullOrEmpty(userDto.Email))
@@ -309,6 +310,67 @@ namespace WebApplication1.Repositories
             }
             
 
+        }
+
+        public async Task<List<User>> Find(HttpRequest request)
+        {
+            try
+            {
+                string userId = Functions.GetStringFromUrl(request.QueryString.ToString(), "userId");
+                string keyword = Functions.GetStringFromUrl(request.QueryString.ToString(), "keyword");
+                bool filterTagsAnd = Functions.GetBoolFromUrl(request.QueryString.ToString(), "filterAnd");
+                List<string> tags = Functions.GetListFromUrl(request.QueryString.ToString(), "tag");
+
+                var user = await _context.User.FindAsync(userId);
+                var whereClause = PredicateBuilder.New<User>(true);
+
+
+                whereClause.And(x => x.Id != userId);
+
+                if (tags != null && tags.Count > 0)
+                {
+                    var i = 0;
+                    foreach (string tag in tags)
+                    {
+                        if (filterTagsAnd)
+                        {
+                            Tag _tag = await _context.Tags.FindAsync(int.Parse(tag));
+                            whereClause.And(x => x.InterestTags.Contains(_tag));
+                        }
+                        else
+                        {
+                            if (i == 0)
+                            {
+                                Tag _tag = await _context.Tags.FindAsync(int.Parse(tag));
+                                whereClause.And(x => x.InterestTags.Contains(_tag));
+
+                            }
+                            else
+                            {
+                                Tag _tag = await _context.Tags.FindAsync(int.Parse(tag));
+                                whereClause.Or(x => x.InterestTags.Contains(_tag));
+                            }
+                        }
+                        i++;
+
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(keyword))
+                {
+                    whereClause.And(x => x.FullName.ToLower().Contains(keyword.ToLower()));
+                    whereClause.Or(x => x.About.ToLower().Contains(keyword.ToLower()));
+                }
+
+                var response = await _context.User.Where(whereClause).Include(x=> x.InterestTags).Include(x => x.FriendShips).ThenInclude(x => x.Users).ToListAsync();
+                var result = response.FindAll(x => !x.FriendShips.Exists(x => x.Users.Exists(x => x.Id == userId)));
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

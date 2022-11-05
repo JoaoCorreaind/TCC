@@ -13,6 +13,7 @@ using Amazon.S3.Transfer;
 using Amazon.S3.Model;
 using System.Configuration;
 using System.Net;
+using System.Collections.Generic;
 
 namespace WebApplication1.Tools
 {
@@ -31,6 +32,27 @@ namespace WebApplication1.Tools
         public static string GetStringFromUrl(string queryString, string key)
         {
             return HttpUtility.ParseQueryString(queryString).Get(key);            
+        }
+
+        public static Boolean GetBoolFromUrl(string queryString, string key)
+        {
+            string boolString = HttpUtility.ParseQueryString(queryString).Get(key);
+            if (!string.IsNullOrEmpty(boolString))
+            {
+                return Boolean.Parse(boolString);
+            }
+            return false;
+        }
+
+        public static List<string> GetListFromUrl(string queryString, string key)
+        {
+            var requestString =  HttpUtility.ParseQueryString(queryString).Get(key);
+            if (!string.IsNullOrEmpty(requestString))
+            {
+                return requestString.Split(",").ToList();
+
+            }
+            return null;
         }
         //Função que salva uma imagem no servidor e retorna o path e nome
         public async static Task<ImageModel> SaveImageInDisk(IFormFile file, string webPath)

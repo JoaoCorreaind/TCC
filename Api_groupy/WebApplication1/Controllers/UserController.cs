@@ -45,6 +45,13 @@ namespace WebApplication1.Controllers
             return await _userRepository.GetUserList(id);
         }
 
+        [HttpGet("find")]
+        public async Task<ActionResult<IEnumerable<User>>> Find()
+        {
+
+            return await _userRepository.Find(Request);
+        }
+
         // GET: api/User/5
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetById(string id)
@@ -153,7 +160,7 @@ namespace WebApplication1.Controllers
                     LastName = payload.FamilyName,
                     Email = payload.Email,
                     Password = BC.HashPassword(payload.Email),
-                    NormalizedUserName = $"{payload.GivenName} {payload.FamilyName}",
+                    FullName = $"{payload.GivenName} {payload.FamilyName}",
                     UserName = payload.Email,
                     EmailConfirmed = payload.EmailVerified,
                     IsSocialAccount = true,
