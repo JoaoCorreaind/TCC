@@ -36,7 +36,7 @@ namespace WebApplication1.Models
     }
     public class FriendShip
     {
-        public string Id { get; set; } = new Guid().ToString(); //id da amizade para poder gerar o chat no signalr
+        public string Id { get; set; } = Guid.NewGuid().ToString(); //id da amizade para poder gerar o chat no signalr
         public List<User> Users { get; set; } //os dois usuários que possuem a amizade
 
     }

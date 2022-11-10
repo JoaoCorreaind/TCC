@@ -55,8 +55,9 @@ namespace WebApplication1.Tools.DataBase
                 .WithMany(g => g.Participants);
 
             modelBuilder.Entity<User>()
-                .HasMany(u => u.InterestTags);
-
+                .HasMany(u => u.InterestTags)
+                .WithMany(t=> t.Users);
+                
             modelBuilder.Entity<Notification>()
                 .HasOne(n => n.SenderUser);
 

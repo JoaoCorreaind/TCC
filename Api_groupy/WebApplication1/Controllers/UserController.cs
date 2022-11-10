@@ -17,7 +17,6 @@ using WebApplication1.ViewModels;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using Google.Apis.Auth;
-
 namespace WebApplication1.Controllers
 {
     [Route("api/user")]
@@ -313,12 +312,14 @@ namespace WebApplication1.Controllers
             var result = await _userManager.ConfirmEmailAsync(usuario, token);
             if (result.Succeeded)
             {
-                return new ContentResult
-                {
-                    ContentType = "text/html",
-                    StatusCode = (int)HttpStatusCode.OK,
-                    Content = "<html><body> <h1>Email confirmado com sucesso, agora voce ja pode efetuar login no site :) </h1> </body></html>"
-                };
+
+                return View("~/Views/User/EmailConfirmed.cshtml");
+                //return new ContentResult
+                //{
+                //    ContentType = "text/html",
+                //    StatusCode = (int)HttpStatusCode.OK,
+                //    Content = "<html><body> <h1>Email confirmado com sucesso, agora voce ja pode efetuar login no site :) </h1> </body></html>"
+                //};
             }
             else
             {
@@ -330,6 +331,7 @@ namespace WebApplication1.Controllers
                 };
             }
         }
+
 
         private bool UserExists(string id)
         {

@@ -303,7 +303,7 @@ namespace WebApplication1.Repositories
                 }
                 return false;
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
                 throw;

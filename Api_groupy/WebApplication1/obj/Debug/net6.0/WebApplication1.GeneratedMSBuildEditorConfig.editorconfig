@@ -15,6 +15,10 @@ build_property.GenerateRazorMetadataSourceChecksumAttributes =
 build_property.MSBuildProjectDirectory = D:\Programação\TCC\TCC\Api_groupy\WebApplication1
 build_property._RazorSourceGeneratorDebug = 
 
+[D:/Programação/TCC/TCC/Api_groupy/WebApplication1/Views/User/EmailConfirmed.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxFbWFpbENvbmZpcm1lZC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [D:/Programação/TCC/TCC/Api_groupy/WebApplication1/Views/User/RedefinirSenha.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlclxSZWRlZmluaXJTZW5oYS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
