@@ -208,7 +208,7 @@ namespace WebApplication1.Repositories
                     }
                 }
 
-                var response = await  _context.Group.Where(whereClause).Include(x=> x.Participants).Include(x=> x.GroupImages).Include(x=> x.GroupMainImage).ToListAsync();
+                var response = await  _context.Group.Where(whereClause).Include(x=> x.Participants).Include(x=> x.Tags).Include(x=> x.GroupImages).Include(x=> x.GroupMainImage).ToListAsync();
 
                 return response;
             }

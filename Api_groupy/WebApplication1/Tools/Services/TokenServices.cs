@@ -23,12 +23,20 @@ namespace WebApplication1.Services
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
-
                 Subject = new ClaimsIdentity(claims),
                 Expires = DateTime.UtcNow.AddHours(2),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
 
+            //var tokenDescriptor = new SecurityTokenDescriptor
+            //{
+            //    Subject = new ClaimsIdentity(claims),
+            //    IssuedAt = DateTime.UtcNow,
+            //    Expires = DateTime.UtcNow.AddMinutes(1),
+            //    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature),
+            //    Issuer = "Issuer",
+            //    Audience = "Audience",
+            //};
             var t = token.CreateToken(tokenDescriptor);
             return token.WriteToken(t);
         }

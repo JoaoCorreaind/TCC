@@ -1,41 +1,23 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using WebApplication1.Tools.DataBase;
-using Pomelo.EntityFrameworkCore.MySql;
-using Microsoft.AspNetCore.SignalR;
 using WebApplication1.Models.Tools;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
+
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication1.Interfaces;
 using WebApplication1.Repositories;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using WebApplication1.settings;
 using WebApplication1.Models;
-using Microsoft.AspNetCore.Identity;
-using WebApplication1.Tools;
+
 
 namespace WebApplication1
 {
@@ -90,7 +72,10 @@ namespace WebApplication1
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
                     ValidateIssuer = false,
-                    ValidateAudience = false
+                    ValidateAudience = false,
+                    //ValidateLifetime = true,
+                    //ClockSkew = TimeSpan.Zero
+
                 };
             });
 
