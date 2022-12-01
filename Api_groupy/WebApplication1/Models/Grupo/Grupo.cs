@@ -5,7 +5,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using WebApplication1.Models.Localidade;
 
 namespace WebApplication1.Models
 {

@@ -31,11 +31,6 @@ namespace WebApplication1.Repositories
             return await _context.City.Where(g => g.StateId.Equals(uf)).ToListAsync();
         }
 
-        public async Task<City> GetByUser(string userId)
-        {
-            return await _context.City.Where(g => g.Users.Any(x => x.Id == userId)).FirstOrDefaultAsync();
-        }
-
         public async Task<List<State>> GetAllUf()
         {
             var response =  await _context.State.ToListAsync();

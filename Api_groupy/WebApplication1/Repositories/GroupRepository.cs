@@ -54,11 +54,13 @@ namespace WebApplication1.Repositories
                     grupo.Address = new Address
                     {
                         City = await _context.City.FindAsync(dto.CityId),
+                        CityId = dto.CityId,
                         Complement = dto.Complement,
                         District = dto.District,
                         Number = dto.Number,
                         PublicPlace = dto.PublicPlace,
                         ReferencePoint = dto.ReferencePoint,
+                        ZipCode = dto.ZipCode,
                         Latitude = dto.Latitude,
                         Longitude = dto.Longitude,
 
@@ -314,6 +316,17 @@ namespace WebApplication1.Repositories
                     }
                 }
                 //var oldUser = await _context.User.FindAsync(id);
+                if (dto.IsPresencial)
+                {
+                    grupo.Address.District = dto.District;
+                    grupo.Address.ZipCode = dto.ZipCode;
+                    grupo.Address.CityId = dto.CityId;
+                    grupo.Address.City = await _context.City.FindAsync(dto.CityId);
+                    grupo.Address.Number = dto.Number;
+                    grupo.Address.PublicPlace = dto.PublicPlace;
+                    grupo.Address.ReferencePoint = dto.ReferencePoint;
+                    grupo.Address.Complement = dto.Complement;
+                }
                 _context.Entry(grupo).State = EntityState.Modified;
 
                 await _context.SaveChangesAsync();

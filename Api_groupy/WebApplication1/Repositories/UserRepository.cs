@@ -15,6 +15,8 @@ using System.Text;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using Abp.Linq.Expressions;
+using WebApplication1.Models.Tools;
+using Microsoft.AspNetCore.SignalR;
 
 namespace WebApplication1.Repositories
 {
@@ -25,19 +27,21 @@ namespace WebApplication1.Repositories
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly IEmailRepository _emailRepository;
+        private readonly IHubContext<ChatHub> _chatHub;
 
         private bool UserHasFriendShip(User user, string friendId)
         {
             bool friend = user.FriendShips.Find(f => f.Users.Find(u => u.Id == friendId) != null) != null;
             return friend;
         }
-        public UserRepository(Context context, IHostingEnvironment host, IEmailRepository emailRepository, UserManager<User> userManager, SignInManager<User> signInManager)
+        public UserRepository(Context context , IHostingEnvironment host, IHubContext<ChatHub> hubContext, IEmailRepository emailRepository, UserManager<User> userManager, SignInManager<User> signInManager)
         {
             _context = context;
             _host = host;
             _userManager = userManager;
             _signInManager = signInManager;
             _emailRepository = emailRepository;
+            _chatHub = hubContext;
         }
         public async Task<User> Create(UserDto userDto)
         {
@@ -239,6 +243,7 @@ namespace WebApplication1.Repositories
                     Number = userDto.Number,
                     PublicPlace = userDto.PublicPlace,
                     ReferencePoint = userDto.ReferencePoint,
+                    ZipCode = userDto.ZipCode,
                     Latitude = userDto.Latitude,
                     Longitude = userDto.Longitude,
 

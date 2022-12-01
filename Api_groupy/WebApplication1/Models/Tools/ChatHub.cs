@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using WebApplication1.Interfaces;
 using WebApplication1.Tools;
 using WebApplication1.Models;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WebApplication1.Models.Tools
 {
@@ -20,6 +21,8 @@ namespace WebApplication1.Models.Tools
         private readonly Context _context;
         private readonly IHttpContextAccessor _acessor;
         private readonly IChatRepository _chatRepository;
+
+       
         public ChatHub(Context context, IHttpContextAccessor accessor, IChatRepository chatRepository)
         {
             _context = context;
@@ -43,9 +46,9 @@ namespace WebApplication1.Models.Tools
                 if (user.Groups != null && user.Groups.Count > 0)
                 {
                     // Adiciona aos hubs em grupo.
-                    foreach (var item in user.Groups)
+                    foreach (var groupStored in user.Groups)
                     {
-                        await Groups.AddToGroupAsync(Context.ConnectionId, item.Id.ToString());
+                        await Groups.AddToGroupAsync(Context.ConnectionId, groupStored.Id.ToString());
                     }
                 }
                 if (user.FriendShips != null && user.FriendShips.Count > 0)
@@ -103,17 +106,9 @@ namespace WebApplication1.Models.Tools
             }
 
         }
-        public void AddToRoom(string roomName)
+        public Task AddToRoom(string roomId)
         {
-
-            // Retrieve room.
-            var room = _context.Group.Find(roomName);
-
-            if (room != null)
-            {
-                Groups.AddToGroupAsync(Context.ConnectionId, roomName);
-            }
-
+            return Groups.AddToGroupAsync(Context.ConnectionId, roomId);
         }
 
         public void RemoveFromRoom(string roomName)
@@ -126,6 +121,8 @@ namespace WebApplication1.Models.Tools
                 Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
             }
         }
+
+        
     }
 }
 

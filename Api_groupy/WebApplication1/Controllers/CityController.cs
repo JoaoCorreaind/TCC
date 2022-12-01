@@ -7,7 +7,6 @@ using System.Net;
 using System.Threading.Tasks;
 using WebApplication1.Interfaces;
 using WebApplication1.Models;
-using WebApplication1.Models.Localidade;
 using WebApplication1.Tools.DataBase;
 
 namespace WebApplication1.Controllers
@@ -44,18 +43,6 @@ namespace WebApplication1.Controllers
             return response;
         }
 
-        // GetbyUser: api/cidade/5/user
-        [HttpGet("{id}/user")]
-        public async Task<ActionResult<City>> GetByUser(string id)
-        {
-            var response = await _cidadeRepository.GetByUser(id);
-
-
-            if (response == null)
-                return NotFound();
-
-            return response;
-        }
 
         // GET MEMBERS: api/cidade/1/uf
         [HttpGet("{id}/uf")]

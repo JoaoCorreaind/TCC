@@ -50,6 +50,7 @@ namespace WebApplication1
             services.AddTransient<IGroupRepository, GroupRepository>();
             services.AddSingleton<IEmailRepository, EmailRepository>();
             services.AddTransient<INotificationRepository, NotificationRepository>();
+
             services.AddIdentityCore<User>(q => q.User.RequireUniqueEmail = true);
             services.AddMvc();
             services.AddDbContext<Context>(opt =>
@@ -98,7 +99,7 @@ namespace WebApplication1
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env , IServiceProvider serviceProvider)
         {
         
 
@@ -137,6 +138,7 @@ namespace WebApplication1
             //.AllowAnyMethod()
             //.AllowAnyHeader()
             //.AllowCredentials());
+            ServiceProvider = serviceProvider;
 
             app.UseCors(x =>
             x.AllowAnyOrigin()
@@ -150,6 +152,8 @@ namespace WebApplication1
             });
 
         }
+        public static IServiceProvider ServiceProvider { get; private set; }
+        public static T GetService<T>() { return ServiceProvider.GetRequiredService<T>(); }
     }
 
     
