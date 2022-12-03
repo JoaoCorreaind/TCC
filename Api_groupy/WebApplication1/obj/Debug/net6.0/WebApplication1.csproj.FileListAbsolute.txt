@@ -1180,3 +1180,12 @@ D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Google.Apis
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Google.Apis.Auth.PlatformServices.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Google.Apis.Auth.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Google.Apis.Core.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Azure.Core.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Azure.Identity.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Microsoft.Azure.SignalR.Common.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Microsoft.Azure.SignalR.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Microsoft.Azure.SignalR.Protocols.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\Microsoft.Rest.ClientRuntime.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\System.Memory.Data.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Debug\net6.0\System.Net.WebSockets.WebSocketProtocol.dll
