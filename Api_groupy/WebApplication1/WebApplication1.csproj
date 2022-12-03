@@ -5,17 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Image\vdd.jpg" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Image\vdd.jpg">
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Abp" Version="7.4.0" />
     <PackageReference Include="AWSSDK.S3" Version="3.7.101.2" />
     <PackageReference Include="BCrypt" Version="1.0.0" />
