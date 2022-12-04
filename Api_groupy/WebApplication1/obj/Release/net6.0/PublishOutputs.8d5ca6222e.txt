@@ -7,6 +7,8 @@ D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Ou
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Abp.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\AWSSDK.Core.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\AWSSDK.S3.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Azure.Core.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Azure.Identity.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\DevOne.Security.Cryptography.BCrypt.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\BCrypt.Net-Next.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Castle.Core.dll
@@ -32,6 +34,9 @@ D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Ou
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Metadata.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.AspNetCore.Razor.Language.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Azure.SignalR.Common.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Azure.SignalR.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Azure.SignalR.Protocols.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Build.Locator.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.CodeAnalysis.AnalyzerUtilities.dll
@@ -62,12 +67,14 @@ D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Ou
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.Identity.Stores.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Extensions.Logging.Abstractions.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Identity.Client.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Identity.Client.Extensions.Msal.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.JsonWebTokens.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Logging.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.IdentityModel.Tokens.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.OpenApi.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.Rest.ClientRuntime.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.VisualStudio.Debugger.Contracts.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\Microsoft.VisualStudio.Web.CodeGeneration.Core.dll
@@ -111,6 +118,8 @@ D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Ou
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\System.Drawing.Common.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\System.IdentityModel.Tokens.Jwt.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\System.Linq.Dynamic.Core.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\System.Memory.Data.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\System.Net.WebSockets.WebSocketProtocol.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\System.Runtime.Caching.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\System.Security.Cryptography.ProtectedData.dll
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\PubTmp\Out\System.Security.Permissions.dll

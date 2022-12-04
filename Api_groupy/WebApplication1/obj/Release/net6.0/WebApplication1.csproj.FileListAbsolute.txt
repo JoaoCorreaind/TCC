@@ -311,3 +311,12 @@ D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\refint\We
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\WebApplication1.pdb
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\WebApplication1.genruntimeconfig.cache
 D:\Programação\TCC\TCC\Api_groupy\WebApplication1\obj\Release\net6.0\ref\WebApplication1.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\Azure.Core.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\Azure.Identity.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\Microsoft.Azure.SignalR.Common.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\Microsoft.Azure.SignalR.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\Microsoft.Azure.SignalR.Protocols.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\Microsoft.Identity.Client.Extensions.Msal.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\Microsoft.Rest.ClientRuntime.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\System.Memory.Data.dll
+D:\Programação\TCC\TCC\Api_groupy\WebApplication1\bin\Release\net6.0\System.Net.WebSockets.WebSocketProtocol.dll

@@ -85,10 +85,7 @@ namespace WebApplication1
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
             var signalrConnectString = "Endpoint=https://try-syte-signalr.service.signalr.net;AccessKey=3CZ5SA3ukX6T5WBDE9dUqSqvaakT55Zj02uZ+c7eARc=;Version=1.0;";
-            services.AddSignalR(e => {
-                e.EnableDetailedErrors = true;
-                e.MaximumReceiveMessageSize = 102400000;
-            }).AddAzureSignalR(signalrConnectString);
+            services.AddSignalR().AddAzureSignalR(signalrConnectString);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Back end MOVE APP", Version = "v1" });
