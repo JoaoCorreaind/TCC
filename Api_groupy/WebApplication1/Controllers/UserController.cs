@@ -76,12 +76,12 @@ namespace WebApplication1.Controllers
             try
             {
                 var result = await _userRepository.Update(id, userDto);
-                if(result == null)
+                if (result == null)
                 {
                     return BadRequest(new { erro = "Falha ao atualizar" });
                 }
-                       
-                return Ok(new { message = "Atualizado com Sucesso" , user = result});
+
+                return Ok(new { message = "Atualizado com Sucesso", user = result });
             }
             catch (Exception ex)
             {
@@ -106,7 +106,7 @@ namespace WebApplication1.Controllers
             //return StatusCode(StatusCodes.Status201Created, TokenServices.GenerateToken(user));
             await EnviarLinkConfirmacaoEmailAsync(user);
             Response.StatusCode = (int)HttpStatusCode.Created;
-            return new { user = user, token = TokenServices.GenerateToken(user), message="Novo usuário registrado com sucesso, para efetuar login por favor conmfirme seu cadastro com o email que enviamos" };
+            return new { user = user, token = TokenServices.GenerateToken(user), message = "Novo usuário registrado com sucesso, para efetuar login por favor conmfirme seu cadastro com o email que enviamos" };
 
         }
 
@@ -126,7 +126,7 @@ namespace WebApplication1.Controllers
 
             if (!user.EmailConfirmed)
             {
-                return new ObjectResult(new {message = "Confirme o email para realizar login", user = user}) { StatusCode = 403 };
+                return new ObjectResult(new { message = "Confirme o email para realizar login", user = user }) { StatusCode = 403 };
             }
             var token = TokenServices.GenerateToken(user);
             return Ok(new { user = user, token = token });
@@ -149,7 +149,7 @@ namespace WebApplication1.Controllers
             if (user != null)
             {
                 return Ok(new { token = TokenServices.GenerateToken(user), user = user });
-            }        
+            }
             else
             {
                 User newUser = new User()
@@ -167,7 +167,7 @@ namespace WebApplication1.Controllers
                 var result = await _userManager.CreateAsync(newUser, newUser.Password);
                 if (result.Succeeded)
                 {
-                    return Ok(new { token = TokenServices.GenerateToken(newUser), user = newUser});
+                    return Ok(new { token = TokenServices.GenerateToken(newUser), user = newUser });
                 }
                 else
                 {
@@ -202,8 +202,8 @@ namespace WebApplication1.Controllers
             return Ok(new { message = "Teste enviado com sucesso" });
         }
 
-        [HttpPost("forgotPassword")]
-        public async Task<IActionResult> EsqueciSenha([FromBody] string email)
+        [HttpPost("forgotPassword/{email}")]
+        public async Task<IActionResult> EsqueciSenha(string email)
         {
             if (_userManager.Users.AsNoTracking().Any(u => u.Email == email.ToUpper().Trim()))
             {
@@ -238,11 +238,18 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost("ResetPassword")]
-        public async Task<IActionResult> RedefinirSenha( RedefinirSenhaViewModel dados)
+        public async Task<IActionResult> AlterarSenha(string token, string email, [FromForm] string novaSenha)
         {
-            var user = await _userManager.FindByEmailAsync(dados.Email);
-            var result = await _userManager.ResetPasswordAsync(
-                user, dados.Token, dados.NovaSenha);
+            if (string.IsNullOrEmpty(novaSenha))
+            {
+                return BadRequest(new { message = "Necessário uma senha válida" });
+            }
+
+            var user =  await _userManager.FindByEmailAsync(email);
+
+            user.Password = BC.HashPassword(novaSenha);
+            var result = await _userManager.UpdateAsync(user);
+       
             if (result.Succeeded)
             {
                 return Ok(new { message = $"Senha redefinida com sucesso! Agora você já pode fazer login com a nova senha." });
