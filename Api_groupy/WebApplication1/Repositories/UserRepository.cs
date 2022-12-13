@@ -117,8 +117,8 @@ namespace WebApplication1.Repositories
             try
             {
                 //var oldUser = await _context.User.FindAsync(id);
-                User user = await _userManager.FindByIdAsync(userDto.Id);
-
+                //User user = await _userManager.FindByIdAsync(userDto.Id);
+                User user = await _context.User.Where(x => x.Id == userDto.Id).Include(x => x.InterestTags).FirstOrDefaultAsync();
                 user.Cpf = userDto.Cpf;
                 user.Rg = userDto.Rg;
                 user.FirstName = userDto.FirstName;
@@ -144,19 +144,6 @@ namespace WebApplication1.Repositories
                     Longitude = userDto.Longitude,
                     ZipCode = userDto.ZipCode,
                 };
-                //if (!string.IsNullOrEmpty(userDto.Image))
-                //{
-                //    byte[] imageBytes = Convert.FromBase64String(userDto.Image);
-                //    var fileName = $"{user.Id}-perfil-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
-
-                //    using (var stream = new MemoryStream(imageBytes))
-                //    {
-                //        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
-
-                //        user.Image = Functions.SaveImageInDisk(file, _host.WebRootPath).Result.Path;
-
-                //    }
-                //}
 
                 if (!string.IsNullOrEmpty(userDto.Image))
                 {
@@ -164,19 +151,7 @@ namespace WebApplication1.Repositories
                     var response = await Functions.UploadImage(user.Id + "-perfil-image", userDto.Image);
                     user.Image = response.PathToFile;
                 }
-                //if (!string.IsNullOrEmpty(userDto.BackgroundImage))
-                //{
-                //    byte[] imageBytes = Convert.FromBase64String(userDto.BackgroundImage);
-                //    var fileName = $"{user.Id}-background-image-{DateTime.UtcNow:yyyy-MM-dd-HH-mm-ss}.jpg";
-
-                //    using (var stream = new MemoryStream(imageBytes))
-                //    {
-                //        var file = new FormFile(stream, 0, imageBytes.Length, "image", fileName);
-
-                //        user.BackgroundImage = Functions.SaveImageInDisk(file, _host.WebRootPath).Result.Path;
-
-                //    }
-                //}               
+                 
                 if (!string.IsNullOrEmpty(userDto.BackgroundImage))
                 {
                     var response = await Functions.UploadImage(user.Id + "-background-image", userDto.BackgroundImage);
@@ -184,22 +159,18 @@ namespace WebApplication1.Repositories
                 }
                 if(userDto.Tags != null && userDto.Tags.Count > 0)
                 {
-                    user.InterestTags = new List<Tag>();
+                    user.InterestTags.Clear();
                     foreach (var tagId in userDto.Tags)
                     {
                         user.InterestTags.Add(await _context.Tags.FindAsync(tagId));
                     }
                 }
-                var result = await _userManager.UpdateAsync(user);
+                await _context.SaveChangesAsync();
                 //_context.Entry(updatedUser).State = EntityState.Modified;
 
-                if (result.Succeeded)
-                {
-                    return user;
-                }
-                return null;
+                return user;
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (Exception ex)
             {
 
                 throw ex;

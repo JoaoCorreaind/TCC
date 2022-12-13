@@ -175,11 +175,11 @@ namespace WebApplication1.Repositories
                 }
                 if (initialDate.HasValue)
                 {
-                    whereClause.And(x => x.CreatedAt > initialDate.Value);
+                    whereClause.And(x => x.CreatedAt.Date >= initialDate.Value.Date);
                 }
                 if (finalDate.HasValue)
                 {
-                    whereClause.And(x => x.CreatedAt < finalDate.Value);
+                    whereClause.And(x => x.CreatedAt.Date <= finalDate.Value.Date);
                 }
                 if (tags != null && tags.Count > 0)
                 {
